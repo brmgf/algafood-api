@@ -24,6 +24,6 @@ public class Estado {
     @Id
     private Long id;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 20, nullable = false)
     private String nome;
 }
