@@ -1,5 +1,7 @@
 package com.brmgf.algafoodapi.api.controller;
 
+import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
 import com.brmgf.algafoodapi.service.CadastroCozinhaService;
 import lombok.RequiredArgsConstructor;
@@ -57,11 +59,13 @@ public class CozinhaController {
 
     @DeleteMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
-        Cozinha cozinha = cadastroCozinhaService.buscar(cozinhaId);
-        if (nonNull(cozinha)) {
-            cadastroCozinhaService.remover(cozinha);
+        try {
+            cadastroCozinhaService.remover(cozinhaId);
             return ResponseEntity.noContent().build();
+        } catch (EntidadeNaoEncontradaException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (EntidadeEmUsoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.notFound().build();
     }
 }

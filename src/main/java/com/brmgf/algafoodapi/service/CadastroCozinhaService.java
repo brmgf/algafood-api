@@ -1,7 +1,10 @@
 package com.brmgf.algafoodapi.service;
 
+import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
 import com.brmgf.algafoodapi.domain.repository.CozinhaRepository;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @RequiredArgsConstructor
@@ -35,7 +39,7 @@ public class CadastroCozinhaService {
 
     @Transactional
     public Cozinha atualizar(Long id, Cozinha cozinha) {
-        Cozinha cozinhaAtual = buscar(id);
+        Cozinha cozinhaAtual = this.buscar(id);
         if (nonNull(cozinhaAtual)) {
             BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
             return cozinhaRepository.save(cozinhaAtual);
@@ -44,12 +48,19 @@ public class CadastroCozinhaService {
     }
 
     @Transactional
-    public void remover(Cozinha cozinha) {
+    public void remover(Long cozinhaId) {
         try {
+            Cozinha cozinha = this.buscar(cozinhaId);
+            if (isNull(cozinha)) {
+                throw new EntidadeNaoEncontradaException(
+                        String.format("Não foi possível excluir registro. Cozinha de código %d não encontrada", cozinhaId)
+                );
+            }
             cozinhaRepository.delete(cozinha);
             cozinhaRepository.flush();
         } catch (DataIntegrityViolationException ex) {
-            throw new RuntimeException("Não foi possível excluir registro");
+            throw new EntidadeEmUsoException(
+                String.format("Não foi possível excluir registro. Cozinha de código %d está em uso", cozinhaId));
         }
     }
 }
