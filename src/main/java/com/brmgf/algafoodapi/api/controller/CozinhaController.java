@@ -52,20 +52,20 @@ public class CozinhaController {
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
         Cozinha cozinhaAtualizada = cadastroCozinhaService.atualizar(cozinhaId, cozinha);
         if (nonNull(cozinhaAtualizada)) {
-            ResponseEntity.ok(cozinhaAtualizada);
+            return ResponseEntity.ok(cozinhaAtualizada);
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
+    public ResponseEntity<?> remover(@PathVariable Long cozinhaId) {
         try {
             cadastroCozinhaService.remover(cozinhaId);
             return ResponseEntity.noContent().build();
-        } catch (EntidadeNaoEncontradaException ex) {
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
             return ResponseEntity.notFound().build();
-        } catch (EntidadeEmUsoException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (EntidadeEmUsoException entidadeEmUsoException) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(entidadeEmUsoException.getMessage());
         }
     }
 }
