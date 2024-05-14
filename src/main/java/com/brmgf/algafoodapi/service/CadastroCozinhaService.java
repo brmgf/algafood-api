@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @RequiredArgsConstructor
 @Service
@@ -44,11 +43,15 @@ public class CadastroCozinhaService {
     @Transactional
     public Cozinha atualizar(Long cozinhaId, Cozinha novaCozinha) {
         Cozinha cozinha = this.buscar(cozinhaId);
-        if (nonNull(cozinha)) {
-            BeanUtils.copyProperties(novaCozinha, cozinha, "id");
-            return cozinhaRepository.save(cozinha);
+
+        if (isNull(cozinha)) {
+            throw new EntidadeNaoEncontradaException(
+                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_NAO_ENCONTRADA.getDescricao(), NOME_ENTIDADE, cozinhaId)
+            );
         }
-        return null;
+
+        BeanUtils.copyProperties(novaCozinha, cozinha, "id");
+        return cozinhaRepository.save(cozinha);
     }
 
     @Transactional
@@ -64,7 +67,8 @@ public class CadastroCozinhaService {
             cozinhaRepository.flush();
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new EntidadeEmUsoException(
-                String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, cozinhaId));
+                String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, cozinhaId)
+            );
         }
     }
 

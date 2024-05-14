@@ -54,10 +54,10 @@ public class RestauranteController {
     }
 
     @PutMapping("/{restauranteId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante novoRestaurante) {
+    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
         try {
-            Restaurante restaurante = cadastroRestauranteService.atualizar(restauranteId, novoRestaurante);
-            return ResponseEntity.ok(restaurante);
+            Restaurante restauranteAtualizado = cadastroRestauranteService.atualizar(restauranteId, restaurante);
+            return ResponseEntity.ok(restauranteAtualizado);
         } catch (CampoObrigatorioException campoObrigatorioException) {
             return ResponseEntity.badRequest().body(campoObrigatorioException.getMessage());
         } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {

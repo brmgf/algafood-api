@@ -42,19 +42,20 @@ public class CozinhaController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
     public Cozinha salvar(@RequestBody Cozinha cozinha) {
         return cadastroCozinhaService.salvar(cozinha);
     }
 
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
-        Cozinha cozinhaAtualizada = cadastroCozinhaService.atualizar(cozinhaId, cozinha);
-        if (nonNull(cozinhaAtualizada)) {
+        try {
+            Cozinha cozinhaAtualizada = cadastroCozinhaService.atualizar(cozinhaId, cozinha);
             return ResponseEntity.ok(cozinhaAtualizada);
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{cozinhaId}")
