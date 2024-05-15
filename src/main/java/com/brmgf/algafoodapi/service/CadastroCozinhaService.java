@@ -72,7 +72,7 @@ public class CadastroCozinhaService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Cozinha buscarCozinhaRestaurante(Restaurante restaurante) {
         if (isNull(restaurante.getCozinha()) || isNull(restaurante.getCozinha().getId())) {
             throw new CampoObrigatorioException(
@@ -83,7 +83,7 @@ public class CadastroCozinhaService {
         Long cozinhaId = restaurante.getCozinha().getId();
         Cozinha cozinha = this.buscar(cozinhaId);
         if (isNull(cozinha)) {
-            throw new CampoObrigatorioException(
+            throw new EntidadeNaoEncontradaException(
                     String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_NAO_ENCONTRADA.getDescricao(), NOME_ENTIDADE, cozinhaId)
             );
         }

@@ -1,8 +1,10 @@
 package com.brmgf.algafoodapi.service;
 
+import com.brmgf.algafoodapi.domain.exception.CampoObrigatorioException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeCadastradaException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.domain.model.Estado;
 import com.brmgf.algafoodapi.domain.repository.EstadoRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;
@@ -84,5 +86,24 @@ public class CadastroEstadoService {
                     String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_JA_CADASTRADA.getDescricao(), NOME_ENTIDADE)
             );
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Estado buscarEstadoCidade(Cidade cidade) {
+        if (isNull(cidade.getEstado()) || isNull(cidade.getEstado().getId())) {
+            throw new CampoObrigatorioException(
+                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_CAMPO_OBRIGATORIO.getDescricao(), NOME_ENTIDADE)
+            );
+        }
+
+        Long estadoId = cidade.getEstado().getId();
+        Estado estado = this.buscar(estadoId);
+        if (isNull(estado)) {
+            throw new EntidadeNaoEncontradaException(
+                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_NAO_ENCONTRADA.getDescricao(), NOME_ENTIDADE, estadoId)
+            );
+        }
+
+        return estado;
     }
 }
