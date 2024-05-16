@@ -1,16 +1,19 @@
 package com.brmgf.algafoodapi.service;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
-import com.brmgf.algafoodapi.domain.model.Cozinha;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.isNull;
 
@@ -64,5 +67,23 @@ public class CadastroRestauranteService {
         }
         restauranteRepository.delete(restaurante);
         restauranteRepository.flush();
+    }
+
+    @Transactional
+    public Restaurante atualizarDadosParcialmente(Long restauranteId, Map<String, Object> dadosOrigem) {
+        Restaurante restaurante = this.buscar(restauranteId);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
+
+        dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+            Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
+            field.setAccessible(true);
+
+            Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
+            ReflectionUtils.setField(field, restaurante, novoValor);
+        });
+
+        return this.atualizar(restauranteId, restaurante);
     }
 }

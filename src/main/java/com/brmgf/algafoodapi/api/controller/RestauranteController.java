@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.nonNull;
 
@@ -70,6 +72,18 @@ public class RestauranteController {
         try {
             cadastroRestauranteService.remover(restauranteId);
             return ResponseEntity.noContent().build();
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PatchMapping("/{restauranteId}")
+    public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
+        try {
+            Restaurante restauranteAtualizado = cadastroRestauranteService.atualizarDadosParcialmente(restauranteId, campos);
+            return ResponseEntity.ok(restauranteAtualizado);
+        } catch (CampoObrigatorioException campoObrigatorioException) {
+            return ResponseEntity.badRequest().body(campoObrigatorioException.getMessage());
         } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
             return ResponseEntity.notFound().build();
         }
