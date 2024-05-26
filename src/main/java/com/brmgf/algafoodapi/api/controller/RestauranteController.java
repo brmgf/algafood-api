@@ -3,7 +3,8 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.domain.exception.CampoObrigatorioException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
-import com.brmgf.algafoodapi.service.CadastroRestauranteService;
+import com.brmgf.algafoodapi.service.cadastro.CadastroRestauranteService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,27 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Objects.nonNull;
-
 @RequiredArgsConstructor
 @RequestMapping("/restaurantes")
 @RestController
 public class RestauranteController {
 
+    private final ConsultaRestauranteService consultaRestauranteService;
     private final CadastroRestauranteService cadastroRestauranteService;
 
     @GetMapping
     public List<Restaurante> listar() {
-        return cadastroRestauranteService.listar();
+        return consultaRestauranteService.listar();
     }
 
     @GetMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId) {
-        Restaurante restaurante = cadastroRestauranteService.buscar(restauranteId);
-        if (nonNull(restaurante)) {
+    public ResponseEntity<?> buscar(@PathVariable Long restauranteId) {
+        try {
+            Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
             return ResponseEntity.ok(restaurante);
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entidadeNaoEncontradaException.getMessage());
         }
-        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -63,17 +64,17 @@ public class RestauranteController {
         } catch (CampoObrigatorioException campoObrigatorioException) {
             return ResponseEntity.badRequest().body(campoObrigatorioException.getMessage());
         } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entidadeNaoEncontradaException.getMessage());
         }
     }
 
     @DeleteMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> remover(@PathVariable Long restauranteId) {
+    public ResponseEntity<?> remover(@PathVariable Long restauranteId) {
         try {
             cadastroRestauranteService.remover(restauranteId);
             return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entidadeNaoEncontradaException.getMessage());
         }
     }
 
@@ -85,7 +86,7 @@ public class RestauranteController {
         } catch (CampoObrigatorioException campoObrigatorioException) {
             return ResponseEntity.badRequest().body(campoObrigatorioException.getMessage());
         } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entidadeNaoEncontradaException.getMessage());
         }
     }
 }

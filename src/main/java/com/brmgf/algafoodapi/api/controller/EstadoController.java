@@ -4,9 +4,9 @@ import com.brmgf.algafoodapi.domain.exception.EntidadeCadastradaException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Estado;
-import com.brmgf.algafoodapi.service.CadastroEstadoService;
+import com.brmgf.algafoodapi.service.cadastro.CadastroEstadoService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaEstadoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,36 +16,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static java.util.Objects.nonNull;
 
 @RequiredArgsConstructor
 @RequestMapping("/estados")
 @RestController
 public class EstadoController {
 
+    private final ConsultaEstadoService consultaEstadoService;
     private final CadastroEstadoService cadastroEstadoService;
 
     @GetMapping
     public List<Estado> listar() {
-        return cadastroEstadoService.listar();
+        return consultaEstadoService.listar();
     }
 
     @GetMapping("/{estadoId}")
-    public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-        Estado estado = cadastroEstadoService.buscar(estadoId);
-        if (nonNull(estado)) {
+    public ResponseEntity<?> buscar(@PathVariable Long estadoId) {
+        try {
+            Estado estado = consultaEstadoService.buscar(estadoId);
             return ResponseEntity.ok(estado);
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entidadeNaoEncontradaException.getMessage());
         }
-
-        return ResponseEntity.notFound().build();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<?> salvar(@RequestBody Estado estado) {
         try {
@@ -64,7 +61,7 @@ public class EstadoController {
         } catch (EntidadeCadastradaException entidadeCadastradaException) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(entidadeCadastradaException.getMessage());
         } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entidadeNaoEncontradaException.getMessage());
         }
     }
 
@@ -74,7 +71,7 @@ public class EstadoController {
             cadastroEstadoService.remover(estadoId);
             return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entidadeNaoEncontradaException.getMessage());
         } catch (EntidadeEmUsoException entidadeEmUsoException) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(entidadeEmUsoException.getMessage());
         }
