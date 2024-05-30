@@ -32,7 +32,7 @@ public class CadastroRestauranteService {
         Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
 
         BeanUtils.copyProperties(novoRestaurante, restaurante,
-                "id", "formasPagamento", "endereco", "dataHoraCadastro");
+                "id", "formasPagamento", "endereco", "dataHoraCadastro", "produtos");
         restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
         return restauranteRepository.save(restaurante);
     }

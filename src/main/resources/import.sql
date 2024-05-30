@@ -24,3 +24,9 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (2, 1), (2, 2), (2,3), (2,4);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (3, 1);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (4, 2), (4, 3), (4,4);
+
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (1, 'Carne', 'Bovina e suína', 500.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (1, 'Carvão', null, 215.0, false);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (2, 'Feijão', 'Carioca', 250.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (3, 'Macarrão', null, 186.70, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, 'Carne', 'Bovina', 345.0, true);
