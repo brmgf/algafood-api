@@ -31,7 +31,8 @@ public class CadastroRestauranteService {
     public Restaurante atualizar(Long restauranteId, Restaurante novoRestaurante) {
         Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
 
-        BeanUtils.copyProperties(novoRestaurante, restaurante, "id", "formasPagamento", "endereco");
+        BeanUtils.copyProperties(novoRestaurante, restaurante,
+                "id", "formasPagamento", "endereco", "dataHoraCadastro");
         restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
         return restauranteRepository.save(restaurante);
     }

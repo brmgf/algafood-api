@@ -16,8 +16,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,14 @@ public class Restaurante {
     @JsonIgnore
     @Embedded
     private Endereco endereco;
+
+    @CreationTimestamp
+    @Column(name = "data_hora_cadastro", nullable = false)
+    private LocalDateTime dataHoraCadastro;
+
+    @UpdateTimestamp
+    @Column(name = "data_hora_atualizacao", nullable = false)
+    private LocalDateTime dataHoraAtualizacao;
 
     @JsonIgnore
     @ManyToMany
