@@ -24,9 +24,9 @@ public class Permissao {
     @Id
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 30, nullable = false)
     private String nome;
 
-    @Column(length = 40)
+    @Column(length = 60)
     private String descricao;
 }

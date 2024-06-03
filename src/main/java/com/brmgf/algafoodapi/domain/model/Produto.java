@@ -28,7 +28,7 @@ public class Produto {
     @Id
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 30, nullable = false)
     private String nome;
 
     @Column(length = 60)
@@ -37,6 +37,7 @@ public class Produto {
     @Column(nullable = false)
     private BigDecimal preco;
 
+    @Column(nullable = false)
     private Boolean ativo;
 
     @ManyToOne
