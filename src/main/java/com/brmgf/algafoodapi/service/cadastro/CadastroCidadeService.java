@@ -1,5 +1,7 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.domain.repository.CidadeRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
@@ -18,8 +20,12 @@ public class CadastroCidadeService {
 
     @Transactional
     public Cidade salvar(Cidade cidade) {
-        cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(cidade));
-        return cidadeRepository.save(cidade);
+        try {
+            cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(cidade));
+            return cidadeRepository.save(cidade);
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        }
     }
 
     @Transactional
@@ -27,8 +33,13 @@ public class CadastroCidadeService {
         Cidade cidade = consultaCidadeService.buscar(cidadeId);
 
         BeanUtils.copyProperties(novaCidade, cidade, "id");
-        cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(novaCidade));
-        return cidadeRepository.save(cidade);
+
+        try {
+            cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(novaCidade));
+            return cidadeRepository.save(cidade);
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        }
     }
 
     @Transactional

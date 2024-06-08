@@ -1,5 +1,7 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
@@ -23,8 +25,12 @@ public class CadastroRestauranteService {
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
-        restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(restaurante));
-        return restauranteRepository.save(restaurante);
+        try {
+            restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(restaurante));
+            return restauranteRepository.save(restaurante);
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        }
     }
 
     @Transactional
@@ -33,8 +39,13 @@ public class CadastroRestauranteService {
 
         BeanUtils.copyProperties(novoRestaurante, restaurante,
                 "id", "formasPagamento", "endereco", "dataHoraCadastro", "produtos");
-        restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
-        return restauranteRepository.save(restaurante);
+
+        try {
+            restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
+            return restauranteRepository.save(restaurante);
+        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
+            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        }
     }
 
     @Transactional
