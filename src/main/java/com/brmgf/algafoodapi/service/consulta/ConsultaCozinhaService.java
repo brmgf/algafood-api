@@ -1,10 +1,8 @@
 package com.brmgf.algafoodapi.service.consulta;
 
-import com.brmgf.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
-import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
 import com.brmgf.algafoodapi.domain.repository.CozinhaRepository;
-import com.brmgf.algafoodapi.util.MensagemErro;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,11 +1,8 @@
-package com.brmgf.algafoodapi.domain.exception;
+package com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada;
 
 import com.brmgf.algafoodapi.util.MensagemErro;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class RestauranteNaoEncontradoException extends NegocioException {
+public class RestauranteNaoEncontradoException extends EntidadeNaoEncontradaException {
 
     private static final String NOME_ENTIDADE = "Restaurante";
 

@@ -1,7 +1,7 @@
 package com.brmgf.algafoodapi.service.consulta;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeCadastradaException;
-import com.brmgf.algafoodapi.domain.exception.EstadoNaoEncontradoException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.EstadoNaoEncontradoException;
 import com.brmgf.algafoodapi.domain.model.Estado;
 import com.brmgf.algafoodapi.domain.repository.EstadoRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;

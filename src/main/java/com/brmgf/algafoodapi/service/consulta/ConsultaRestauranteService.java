@@ -1,6 +1,6 @@
 package com.brmgf.algafoodapi.service.consulta;
 
-import com.brmgf.algafoodapi.domain.exception.RestauranteNaoEncontradoException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.RestauranteNaoEncontradoException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;
 import lombok.RequiredArgsConstructor;

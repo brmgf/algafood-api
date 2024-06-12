@@ -1,7 +1,6 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
-import com.brmgf.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
-import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;

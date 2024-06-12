@@ -1,18 +1,25 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
-import com.brmgf.algafoodapi.domain.exception.EstadoNaoEncontradoException;
+import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.EstadoNaoEncontradoException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.domain.repository.CidadeRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
+import com.brmgf.algafoodapi.util.MensagemErro;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RequiredArgsConstructor
 @Service
 public class CadastroCidadeService {
+
+    private static final String NOME_ENTIDADE = "Cidade";
 
     private final CidadeRepository cidadeRepository;
     private final ConsultaCidadeService consultaCidadeService;
@@ -44,8 +51,15 @@ public class CadastroCidadeService {
 
     @Transactional
     public void remover(Long cidadeId) {
-        Cidade cidade = consultaCidadeService.buscar(cidadeId);
+        try {
+            Cidade cidade = consultaCidadeService.buscar(cidadeId);
 
-        cidadeRepository.delete(cidade);
+            cidadeRepository.delete(cidade);
+            cidadeRepository.flush();
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
+            throw new EntidadeEmUsoException(
+                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, cidadeId)
+            );
+        }
     }
 }

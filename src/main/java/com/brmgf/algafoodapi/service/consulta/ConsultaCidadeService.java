@@ -1,6 +1,6 @@
 package com.brmgf.algafoodapi.service.consulta;
 
-import com.brmgf.algafoodapi.domain.exception.CidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.domain.repository.CidadeRepository;
 import lombok.RequiredArgsConstructor;
