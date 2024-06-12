@@ -1,6 +1,6 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
-import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.EstadoNaoEncontradoException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.domain.repository.CidadeRepository;
@@ -23,8 +23,8 @@ public class CadastroCidadeService {
         try {
             cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(cidade));
             return cidadeRepository.save(cidade);
-        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        } catch (EstadoNaoEncontradoException estadoNaoEncontradoException) {
+            throw new NegocioException(estadoNaoEncontradoException.getMessage(), estadoNaoEncontradoException);
         }
     }
 
@@ -37,8 +37,8 @@ public class CadastroCidadeService {
         try {
             cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(novaCidade));
             return cidadeRepository.save(cidade);
-        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        } catch (EstadoNaoEncontradoException estadoNaoEncontradoException) {
+            throw new NegocioException(estadoNaoEncontradoException.getMessage(), estadoNaoEncontradoException);
         }
     }
 

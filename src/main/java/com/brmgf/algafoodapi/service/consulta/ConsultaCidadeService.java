@@ -1,9 +1,8 @@
 package com.brmgf.algafoodapi.service.consulta;
 
-import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.CidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.domain.repository.CidadeRepository;
-import com.brmgf.algafoodapi.util.MensagemErro;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +25,6 @@ public class ConsultaCidadeService {
     @Transactional(readOnly = true)
     public Cidade buscar(Long cidadeId) {
         return cidadeRepository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_NAO_ENCONTRADA.getDescricao(), NOME_ENTIDADE, cidadeId)
-                ));
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 }

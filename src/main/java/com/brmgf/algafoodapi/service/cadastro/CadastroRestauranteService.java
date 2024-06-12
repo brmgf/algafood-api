@@ -1,5 +1,6 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
+import com.brmgf.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
@@ -28,8 +29,8 @@ public class CadastroRestauranteService {
         try {
             restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(restaurante));
             return restauranteRepository.save(restaurante);
-        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        } catch (CozinhaNaoEncontradaException cozinhaNaoEncontradaException) {
+            throw new NegocioException(cozinhaNaoEncontradaException.getMessage(), cozinhaNaoEncontradaException);
         }
     }
 
@@ -43,8 +44,8 @@ public class CadastroRestauranteService {
         try {
             restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
             return restauranteRepository.save(restaurante);
-        } catch (EntidadeNaoEncontradaException entidadeNaoEncontradaException) {
-            throw new NegocioException(entidadeNaoEncontradaException.getMessage());
+        } catch (CozinhaNaoEncontradaException cozinhaNaoEncontradaException) {
+            throw new NegocioException(cozinhaNaoEncontradaException.getMessage(), cozinhaNaoEncontradaException);
         }
     }
 

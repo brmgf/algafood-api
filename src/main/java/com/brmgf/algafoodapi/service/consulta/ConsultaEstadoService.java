@@ -1,7 +1,7 @@
 package com.brmgf.algafoodapi.service.consulta;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeCadastradaException;
-import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.EstadoNaoEncontradoException;
 import com.brmgf.algafoodapi.domain.model.Estado;
 import com.brmgf.algafoodapi.domain.repository.EstadoRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;
@@ -32,9 +32,7 @@ public class ConsultaEstadoService {
     @Transactional(readOnly = true)
     public Estado buscar(Long estadoId) {
         return estadoRepository.findById(estadoId).orElseThrow(
-                () -> new EntidadeNaoEncontradaException(
-                        String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_NAO_ENCONTRADA.getDescricao(), NOME_ENTIDADE, estadoId)
-                ));
+                () -> new EstadoNaoEncontradoException(estadoId));
     }
 
     @Transactional(readOnly = true)
