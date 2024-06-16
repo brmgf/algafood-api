@@ -6,6 +6,7 @@ import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.EntidadeNaoEncontradaException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -79,6 +80,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             return handleInvalidFormatExcetion((InvalidFormatException) rootCause, headers, statusCode, request);
         }
 
+        if (rootCause instanceof PropertyBindingException) {
+            return handlePropertyBindingException((PropertyBindingException) rootCause, headers, statusCode, request);
+        }
+
         String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
         ApiError error = ApiError.createApiErrorBuilder(HttpStatus.valueOf(statusCode.value()), ApiErrorType.MENSAGEM_INCOMPREENSIVEL, detail).build();
 
@@ -90,6 +95,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String path = ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
         String detail = String.format("A propriedade '%s' recebeu um tipo inválido. Informe um valor compatível com o tipo %s.",
                 path, ex.getTargetType().getSimpleName());
+        ApiError error = ApiError.createApiErrorBuilder(HttpStatus.valueOf(statusCode.value()), ApiErrorType.MENSAGEM_INCOMPREENSIVEL, detail).build();
+
+        return handleExceptionInternal(ex, error, headers, statusCode, request);
+    }
+
+    private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+
+        String path = ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
+        String detail = String.format("A propriedade '%s' não existe.", path);
         ApiError error = ApiError.createApiErrorBuilder(HttpStatus.valueOf(statusCode.value()), ApiErrorType.MENSAGEM_INCOMPREENSIVEL, detail).build();
 
         return handleExceptionInternal(ex, error, headers, statusCode, request);
