@@ -9,7 +9,8 @@ public enum ApiErrorType {
     CAMPO_OBRIGATORIO("Campo obrigatório", "/campo-obrigatorio"),
     ENTIDADE_EM_USO("Entidade em uso", "/entidade-em-uso"),
     ENTIDADE_CADASTRADA("Entidade cadastrada", "/entidade-cadastrada"),
-    REGRA_NEGOCIO("Regra de negócio", "regra-negocio");
+    REGRA_NEGOCIO("Regra de negócio", "/regra-negocio"),
+    MENSAGEM_INCOMPREENSIVEL("Mensagem incompreensível", "/mensagem-incompreensivel");
 
     private String title;
     private String uri;
