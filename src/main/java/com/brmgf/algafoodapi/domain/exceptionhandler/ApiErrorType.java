@@ -10,7 +10,12 @@ public enum ApiErrorType {
     ENTIDADE_EM_USO("Entidade em uso", "/entidade-em-uso"),
     ENTIDADE_CADASTRADA("Entidade cadastrada", "/entidade-cadastrada"),
     REGRA_NEGOCIO("Regra de negócio", "/regra-negocio"),
-    MENSAGEM_INCOMPREENSIVEL("Mensagem incompreensível", "/mensagem-incompreensivel");
+    MENSAGEM_INCOMPREENSIVEL("Mensagem incompreensível", "/mensagem-incompreensivel"),
+    PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro inválido"),
+    RECURSO_NAO_ENCONTRADO("/recurso-nao-encontrado", "Recurso não encontrado"),
+    ERRO_SISTEMA("/erro-de-sistema", "Erro de sistema"),
+    ERRO_NEGOCIO("/erro-negocio", "Violação de regra de negócio"),
+    DADOS_INVALIDOS("/dados-invalidos", "Dados inválidos");
 
     private String title;
     private String uri;

@@ -8,17 +8,22 @@ import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.EntidadeNaoE
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -105,6 +110,63 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String path = ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
         String detail = String.format("A propriedade '%s' não existe.", path);
         ApiError error = ApiError.createApiErrorBuilder(HttpStatus.valueOf(statusCode.value()), ApiErrorType.MENSAGEM_INCOMPREENSIVEL, detail).build();
+
+        return handleExceptionInternal(ex, error, headers, statusCode, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        if (ex instanceof MethodArgumentTypeMismatchException) {
+            return handleMethodArgumentTypeMismatch((MethodArgumentTypeMismatchException) ex, headers, HttpStatus.valueOf(statusCode.value()), request);
+        }
+
+        return super.handleTypeMismatch(ex, headers, statusCode, request);
+    }
+
+    private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String detail = String.format("O parâmetro de URL '%s' recebeu um valor inválido. Informe um valor compatível com o tipo %s.",
+                ex.getName(), ex.getRequiredType().getSimpleName());
+        ApiError error = ApiError.createApiErrorBuilder(status, ApiErrorType.PARAMETRO_INVALIDO, detail).build();
+
+        return handleExceptionInternal(ex, error, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+
+        String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", ex.getRequestURL());
+        ApiError error = ApiError.createApiErrorBuilder(HttpStatus.valueOf(statusCode.value()), ApiErrorType.RECURSO_NAO_ENCONTRADO, detail).build();
+
+        return handleExceptionInternal(ex, error, headers, statusCode, request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleUncaughtException(Exception ex, WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        String detail = "Ocorreu um erro interno inesperado no sistema.";
+        ex.printStackTrace();
+
+        ApiError error = ApiError.createApiErrorBuilder(status, ApiErrorType.ERRO_SISTEMA, detail).build();
+
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+
+        List<ApiErrorField> fields = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(fieldError -> ApiErrorField.builder()
+                        .name(fieldError.getField())
+                        .userMessage(fieldError.getDefaultMessage())
+                        .build())
+                .toList();
+
+        ApiError error = ApiError.createApiErrorBuilder(HttpStatus.valueOf(statusCode.value()), ApiErrorType.DADOS_INVALIDOS, detail)
+                .fields(fields)
+                .build();
 
         return handleExceptionInternal(ex, error, headers, statusCode, request);
     }
