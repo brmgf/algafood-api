@@ -3,6 +3,7 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCidadeService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,12 +38,12 @@ public class CidadeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Cidade salvar(@RequestBody Cidade novaCidade) {
+    public Cidade salvar(@RequestBody @Valid Cidade novaCidade) {
         return cadastroCidadeService.salvar(novaCidade);
     }
 
     @PutMapping("/{cidadeId}")
-    public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody Cidade novaCidade) {
+    public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody @Valid Cidade novaCidade) {
         return cadastroCidadeService.atualizar(cidadeId, novaCidade);
     }
 

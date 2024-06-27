@@ -3,6 +3,7 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.domain.model.Estado;
 import com.brmgf.algafoodapi.service.cadastro.CadastroEstadoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaEstadoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,12 +38,12 @@ public class EstadoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Estado salvar(@RequestBody Estado estado) {
+    public Estado salvar(@RequestBody @Valid Estado estado) {
         return cadastroEstadoService.salvar(estado);
     }
 
     @PutMapping("/{estadoId}")
-    public Estado atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
+    public Estado atualizar(@PathVariable Long estadoId, @RequestBody @Valid Estado estado) {
         return cadastroEstadoService.atualizar(estadoId, estado);
     }
 

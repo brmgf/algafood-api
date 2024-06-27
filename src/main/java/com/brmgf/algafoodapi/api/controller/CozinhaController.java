@@ -3,6 +3,7 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCozinhaService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCozinhaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,12 +38,12 @@ public class CozinhaController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Cozinha salvar(@RequestBody Cozinha cozinha) {
+    public Cozinha salvar(@RequestBody @Valid Cozinha cozinha) {
         return cadastroCozinhaService.salvar(cozinha);
     }
 
     @PutMapping("/{cozinhaId}")
-    public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
+    public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid Cozinha cozinha) {
         return cadastroCozinhaService.atualizar(cozinhaId, cozinha);
     }
 
