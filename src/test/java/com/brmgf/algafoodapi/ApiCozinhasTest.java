@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/application-test.properties")
 class ApiCozinhasTest {
 
 	@LocalServerPort
@@ -43,17 +44,6 @@ class ApiCozinhasTest {
 	}
 
 	@Test
-	void deveRetornarTresCozinhasQuandoBuscarCozinhas() {
-		given()
-			.accept(ContentType.JSON)
-		.when()
-			.get()
-		.then()
-			.body("", hasSize(3))
-			.body("nome", hasItems("Brasileira", "Tailandesa", "Mexicana"));
-	}
-
-	@Test
 	void deveCadastrarCozinhaComSucesso() {
 		given()
 			.body("{\"nome\":\"Chinesa\"}")
@@ -63,5 +53,17 @@ class ApiCozinhasTest {
 			.post()
 		.then()
 			.statusCode(HttpStatus.CREATED.value());
+	}
+
+	@Test
+	void deveRetornarCozinhaQuandoBuscarCozinhaPorId() {
+		given()
+			.pathParam("cozinhaId", 1)
+			.accept(ContentType.JSON)
+		.when()
+			.get("/{cozinhaId}")
+		.then()
+			.statusCode(HttpStatus.OK.value())
+			.body("nome", equalTo("Chinesa"));
 	}
 }
