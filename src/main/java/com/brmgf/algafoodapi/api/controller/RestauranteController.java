@@ -2,8 +2,8 @@ package com.brmgf.algafoodapi.api.controller;
 
 import com.brmgf.algafoodapi.api.assembler.RestauranteDTOAssembler;
 import com.brmgf.algafoodapi.api.disassembler.RestauranteInputDisassembler;
+import com.brmgf.algafoodapi.api.domain.input.RestauranteInput;
 import com.brmgf.algafoodapi.api.domain.model.RestauranteDTO;
-import com.brmgf.algafoodapi.api.input.RestauranteInput;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.service.cadastro.CadastroRestauranteService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;

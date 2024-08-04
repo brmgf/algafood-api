@@ -1,6 +1,7 @@
 package com.brmgf.algafoodapi.api.disassembler;
 
-import com.brmgf.algafoodapi.api.input.RestauranteInput;
+
+import com.brmgf.algafoodapi.api.domain.input.RestauranteInput;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

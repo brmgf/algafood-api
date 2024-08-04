@@ -1,6 +1,9 @@
 package com.brmgf.algafoodapi.api.controller;
 
-import com.brmgf.algafoodapi.domain.model.Cozinha;
+import com.brmgf.algafoodapi.api.assembler.CozinhaDTOAssembler;
+import com.brmgf.algafoodapi.api.disassembler.CozinhaInputDisassembler;
+import com.brmgf.algafoodapi.api.domain.input.CozinhaInput;
+import com.brmgf.algafoodapi.api.domain.model.CozinhaDTO;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCozinhaService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCozinhaService;
 import jakarta.validation.Valid;
@@ -25,26 +28,30 @@ public class CozinhaController {
 
     private final ConsultaCozinhaService consultaCozinhaService;
     private final CadastroCozinhaService cadastroCozinhaService;
+    private final CozinhaDTOAssembler cozinhaDTOAssembler;
+    private final CozinhaInputDisassembler cozinhaInputDisassembler;
 
     @GetMapping
-    public List<Cozinha> listar() {
-        return consultaCozinhaService.listar();
+    public List<CozinhaDTO> listar() {
+        return cozinhaDTOAssembler.toCollectionModel(consultaCozinhaService.listar());
     }
 
     @GetMapping("/{id}")
-    public Cozinha buscar(@PathVariable Long id) {
-        return consultaCozinhaService.buscar(id);
+    public CozinhaDTO buscar(@PathVariable Long id) {
+        return cozinhaDTOAssembler.toModel(consultaCozinhaService.buscar(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Cozinha salvar(@RequestBody @Valid Cozinha cozinha) {
-        return cadastroCozinhaService.salvar(cozinha);
+    public CozinhaDTO salvar(@RequestBody @Valid CozinhaInput cozinha) {
+        return cozinhaDTOAssembler
+                .toModel(cadastroCozinhaService.salvar(cozinhaInputDisassembler.toObjectModel(cozinha)));
     }
 
     @PutMapping("/{cozinhaId}")
-    public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid Cozinha cozinha) {
-        return cadastroCozinhaService.atualizar(cozinhaId, cozinha);
+    public CozinhaDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinha) {
+        return cozinhaDTOAssembler
+                .toModel(cadastroCozinhaService.atualizar(cozinhaId, cozinhaInputDisassembler.toObjectModel(cozinha)));
     }
 
     @DeleteMapping("/{cozinhaId}")

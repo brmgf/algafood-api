@@ -1,4 +1,4 @@
-package com.brmgf.algafoodapi.api.input;
+package com.brmgf.algafoodapi.api.domain.input;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
