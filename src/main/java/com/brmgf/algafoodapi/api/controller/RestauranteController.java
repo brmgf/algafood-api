@@ -1,5 +1,9 @@
 package com.brmgf.algafoodapi.api.controller;
 
+import com.brmgf.algafoodapi.api.assembler.RestauranteDTOAssembler;
+import com.brmgf.algafoodapi.api.disassembler.RestauranteInputDisassembler;
+import com.brmgf.algafoodapi.api.domain.model.RestauranteDTO;
+import com.brmgf.algafoodapi.api.input.RestauranteInput;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.service.cadastro.CadastroRestauranteService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
@@ -25,6 +29,8 @@ public class RestauranteController {
 
     private final ConsultaRestauranteService consultaRestauranteService;
     private final CadastroRestauranteService cadastroRestauranteService;
+    private final RestauranteDTOAssembler restauranteDTOAssembler;
+    private final RestauranteInputDisassembler restauranteInputDisassembler;
 
     @GetMapping
     public List<Restaurante> listar() {
@@ -32,18 +38,20 @@ public class RestauranteController {
     }
 
     @GetMapping("/{restauranteId}")
-    public Restaurante buscar(@PathVariable Long restauranteId) {
-        return consultaRestauranteService.buscar(restauranteId);
+    public RestauranteDTO buscar(@PathVariable Long restauranteId) {
+        return restauranteDTOAssembler.toModel(consultaRestauranteService.buscar(restauranteId));
     }
 
     @PostMapping
-    public Restaurante salvar(@RequestBody @Valid Restaurante restaurante) {
-        return cadastroRestauranteService.salvar(restaurante);
+    public RestauranteDTO salvar(@RequestBody @Valid RestauranteInput restauranteInput) {
+        return restauranteDTOAssembler
+                .toModel(cadastroRestauranteService.salvar(restauranteInputDisassembler.toObjectModel(restauranteInput)));
     }
 
     @PutMapping("/{restauranteId}")
-    public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restaurante) {
-        return cadastroRestauranteService.atualizar(restauranteId, restaurante);
+    public RestauranteDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restaurante) {
+        return restauranteDTOAssembler
+                .toModel(cadastroRestauranteService.atualizar(restauranteId, restauranteInputDisassembler.toObjectModel(restaurante)));
     }
 
     @DeleteMapping("/{restauranteId}")
@@ -52,7 +60,8 @@ public class RestauranteController {
     }
 
     @PatchMapping("/{restauranteId}")
-    public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
-        return cadastroRestauranteService.atualizarDadosParcialmente(restauranteId, campos);
+    public RestauranteDTO atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
+        return restauranteDTOAssembler
+                .toModel(cadastroRestauranteService.atualizarDadosParcialmente(restauranteId, campos));
     }
 }
