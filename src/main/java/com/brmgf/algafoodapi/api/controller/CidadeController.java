@@ -1,6 +1,9 @@
 package com.brmgf.algafoodapi.api.controller;
 
-import com.brmgf.algafoodapi.domain.model.Cidade;
+import com.brmgf.algafoodapi.api.assembler.CidadeDTOAssembler;
+import com.brmgf.algafoodapi.api.disassembler.CidadeInputDisassembler;
+import com.brmgf.algafoodapi.api.domain.input.CidadeInput;
+import com.brmgf.algafoodapi.api.domain.model.CidadeDTO;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCidadeService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
 import jakarta.validation.Valid;
@@ -25,26 +28,30 @@ public class CidadeController {
 
     private final ConsultaCidadeService consultaCidadeService;
     private final CadastroCidadeService cadastroCidadeService;
+    private final CidadeDTOAssembler cidadeDTOAssembler;
+    private final CidadeInputDisassembler cidadeInputDisassembler;
 
     @GetMapping
-    public List<Cidade> listar() {
-        return consultaCidadeService.listar();
+    public List<CidadeDTO> listar() {
+        return cidadeDTOAssembler.toCollectionDTO(consultaCidadeService.listar());
     }
 
     @GetMapping("/{cidadeId}")
-    public Cidade buscar(@PathVariable Long cidadeId) {
-        return consultaCidadeService.buscar(cidadeId);
+    public CidadeDTO buscar(@PathVariable Long cidadeId) {
+        return cidadeDTOAssembler.toDTO(consultaCidadeService.buscar(cidadeId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Cidade salvar(@RequestBody @Valid Cidade novaCidade) {
-        return cadastroCidadeService.salvar(novaCidade);
+    public CidadeDTO salvar(@RequestBody @Valid CidadeInput novaCidade) {
+        return cidadeDTOAssembler
+                .toDTO(cadastroCidadeService.salvar(cidadeInputDisassembler.toObjectModel(novaCidade)));
     }
 
     @PutMapping("/{cidadeId}")
-    public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody @Valid Cidade novaCidade) {
-        return cadastroCidadeService.atualizar(cidadeId, novaCidade);
+    public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput novaCidade) {
+        return cidadeDTOAssembler
+                .toDTO(cadastroCidadeService.atualizar(cidadeId, cidadeInputDisassembler.toObjectModel(novaCidade)));
     }
 
     @DeleteMapping("/{cidadeId}")

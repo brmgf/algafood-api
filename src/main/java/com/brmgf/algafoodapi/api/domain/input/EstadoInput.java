@@ -1,5 +1,6 @@
 package com.brmgf.algafoodapi.api.domain.input;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,5 +8,6 @@ import lombok.Setter;
 @Getter
 public class EstadoInput {
 
+    @NotBlank
     private String nome;
 }
