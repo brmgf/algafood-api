@@ -1,6 +1,9 @@
 package com.brmgf.algafoodapi.api.controller;
 
-import com.brmgf.algafoodapi.domain.model.Estado;
+import com.brmgf.algafoodapi.api.assembler.EstadoDTOAssember;
+import com.brmgf.algafoodapi.api.disassembler.EstadoInputDisassembler;
+import com.brmgf.algafoodapi.api.domain.input.EstadoInput;
+import com.brmgf.algafoodapi.api.domain.model.EstadoDTO;
 import com.brmgf.algafoodapi.service.cadastro.CadastroEstadoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaEstadoService;
 import jakarta.validation.Valid;
@@ -25,26 +28,30 @@ public class EstadoController {
 
     private final ConsultaEstadoService consultaEstadoService;
     private final CadastroEstadoService cadastroEstadoService;
+    private final EstadoDTOAssember estadoDTOAssember;
+    private final EstadoInputDisassembler estadoInputDisassembler;
 
     @GetMapping
-    public List<Estado> listar() {
-        return consultaEstadoService.listar();
+    public List<EstadoDTO> listar() {
+        return estadoDTOAssember.toCollectionDTO(consultaEstadoService.listar());
     }
 
     @GetMapping("/{estadoId}")
-    public Estado buscar(@PathVariable Long estadoId) {
-        return consultaEstadoService.buscar(estadoId);
+    public EstadoDTO buscar(@PathVariable Long estadoId) {
+        return estadoDTOAssember.toDTO(consultaEstadoService.buscar(estadoId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Estado salvar(@RequestBody @Valid Estado estado) {
-        return cadastroEstadoService.salvar(estado);
+    public EstadoDTO salvar(@RequestBody @Valid EstadoInput estado) {
+        return estadoDTOAssember
+                .toDTO(cadastroEstadoService.salvar(estadoInputDisassembler.toObjectModel(estado)));
     }
 
     @PutMapping("/{estadoId}")
-    public Estado atualizar(@PathVariable Long estadoId, @RequestBody @Valid Estado estado) {
-        return cadastroEstadoService.atualizar(estadoId, estado);
+    public EstadoDTO atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estado) {
+        return estadoDTOAssember
+                .toDTO(cadastroEstadoService.atualizar(estadoId, estadoInputDisassembler.toObjectModel(estado)));
     }
 
     @DeleteMapping("/{estadoId}")

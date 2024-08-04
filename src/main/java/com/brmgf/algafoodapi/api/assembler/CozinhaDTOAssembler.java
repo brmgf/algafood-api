@@ -15,11 +15,11 @@ public class CozinhaDTOAssembler {
 
     private final ModelMapper modelMapper;
 
-    public CozinhaDTO toModel(Cozinha cozinha) {
+    public CozinhaDTO toDTO(Cozinha cozinha) {
         return modelMapper.map(cozinha, CozinhaDTO.class);
     }
 
-    public List<CozinhaDTO> toCollectionModel(List<Cozinha> cozinhas) {
-        return cozinhas.stream().map(this::toModel).collect(Collectors.toList());
+    public List<CozinhaDTO> toCollectionDTO(List<Cozinha> cozinhas) {
+        return cozinhas.stream().map(this::toDTO).collect(Collectors.toList());
     }
 }

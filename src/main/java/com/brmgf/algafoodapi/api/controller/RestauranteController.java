@@ -33,25 +33,25 @@ public class RestauranteController {
     private final RestauranteInputDisassembler restauranteInputDisassembler;
 
     @GetMapping
-    public List<Restaurante> listar() {
-        return consultaRestauranteService.listar();
+    public List<RestauranteDTO> listar() {
+        return restauranteDTOAssembler.toCollectionDTO(consultaRestauranteService.listar());
     }
 
     @GetMapping("/{restauranteId}")
     public RestauranteDTO buscar(@PathVariable Long restauranteId) {
-        return restauranteDTOAssembler.toModel(consultaRestauranteService.buscar(restauranteId));
+        return restauranteDTOAssembler.toDTO(consultaRestauranteService.buscar(restauranteId));
     }
 
     @PostMapping
     public RestauranteDTO salvar(@RequestBody @Valid RestauranteInput restauranteInput) {
         return restauranteDTOAssembler
-                .toModel(cadastroRestauranteService.salvar(restauranteInputDisassembler.toObjectModel(restauranteInput)));
+                .toDTO(cadastroRestauranteService.salvar(restauranteInputDisassembler.toObjectModel(restauranteInput)));
     }
 
     @PutMapping("/{restauranteId}")
     public RestauranteDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restaurante) {
         return restauranteDTOAssembler
-                .toModel(cadastroRestauranteService.atualizar(restauranteId, restauranteInputDisassembler.toObjectModel(restaurante)));
+                .toDTO(cadastroRestauranteService.atualizar(restauranteId, restauranteInputDisassembler.toObjectModel(restaurante)));
     }
 
     @DeleteMapping("/{restauranteId}")
@@ -62,6 +62,6 @@ public class RestauranteController {
     @PatchMapping("/{restauranteId}")
     public RestauranteDTO atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
         return restauranteDTOAssembler
-                .toModel(cadastroRestauranteService.atualizarDadosParcialmente(restauranteId, campos));
+                .toDTO(cadastroRestauranteService.atualizarDadosParcialmente(restauranteId, campos));
     }
 }

@@ -15,11 +15,11 @@ public class RestauranteDTOAssembler {
 
     private final ModelMapper modelMapper;
 
-    public RestauranteDTO toModel(Restaurante restaurante) {
+    public RestauranteDTO toDTO(Restaurante restaurante) {
         return modelMapper.map(restaurante, RestauranteDTO.class);
     }
 
-    public List<RestauranteDTO> toCollectionModel(List<Restaurante> restaurantes) {
-        return restaurantes.stream().map(this::toModel).collect(Collectors.toList());
+    public List<RestauranteDTO> toCollectionDTO(List<Restaurante> restaurantes) {
+        return restaurantes.stream().map(this::toDTO).collect(Collectors.toList());
     }
 }

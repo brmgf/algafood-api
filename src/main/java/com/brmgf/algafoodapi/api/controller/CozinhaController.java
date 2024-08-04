@@ -33,25 +33,25 @@ public class CozinhaController {
 
     @GetMapping
     public List<CozinhaDTO> listar() {
-        return cozinhaDTOAssembler.toCollectionModel(consultaCozinhaService.listar());
+        return cozinhaDTOAssembler.toCollectionDTO(consultaCozinhaService.listar());
     }
 
     @GetMapping("/{id}")
     public CozinhaDTO buscar(@PathVariable Long id) {
-        return cozinhaDTOAssembler.toModel(consultaCozinhaService.buscar(id));
+        return cozinhaDTOAssembler.toDTO(consultaCozinhaService.buscar(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public CozinhaDTO salvar(@RequestBody @Valid CozinhaInput cozinha) {
         return cozinhaDTOAssembler
-                .toModel(cadastroCozinhaService.salvar(cozinhaInputDisassembler.toObjectModel(cozinha)));
+                .toDTO(cadastroCozinhaService.salvar(cozinhaInputDisassembler.toObjectModel(cozinha)));
     }
 
     @PutMapping("/{cozinhaId}")
     public CozinhaDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinha) {
         return cozinhaDTOAssembler
-                .toModel(cadastroCozinhaService.atualizar(cozinhaId, cozinhaInputDisassembler.toObjectModel(cozinha)));
+                .toDTO(cadastroCozinhaService.atualizar(cozinhaId, cozinhaInputDisassembler.toObjectModel(cozinha)));
     }
 
     @DeleteMapping("/{cozinhaId}")
