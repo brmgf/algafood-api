@@ -1,7 +1,6 @@
 package com.brmgf.algafoodapi.domain.model;
 
 import com.brmgf.algafoodapi.Groups;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +35,6 @@ public class Cidade {
     @Column(length = 30, nullable = false)
     private String nome;
 
-    @JsonIgnoreProperties(value = "nome", allowGetters = true)
     @Valid
     @ConvertGroup(from = Default.class, to = Groups.CadastroCidade.class)
     @ManyToOne

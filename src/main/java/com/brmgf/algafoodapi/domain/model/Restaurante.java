@@ -1,8 +1,6 @@
 package com.brmgf.algafoodapi.domain.model;
 
 import com.brmgf.algafoodapi.Groups;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -54,7 +52,6 @@ public class Restaurante {
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
 
-    @JsonIgnoreProperties(value = "nome", allowGetters = true)
     @Valid
     @ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
     @NotNull
@@ -62,7 +59,6 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
-    @JsonIgnore
     @Setter
     @Getter
     @Embedded
@@ -76,14 +72,12 @@ public class Restaurante {
     @Column(name = "data_hora_atualizacao", nullable = false)
     private LocalDateTime dataHoraAtualizacao;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
 }
