@@ -1,7 +1,7 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
-import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
@@ -72,5 +72,17 @@ public class CadastroRestauranteService {
         });
 
         return restauranteRepository.save(restaurante);
+    }
+
+    @Transactional
+    public void ativar(Long restauranteId) {
+        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        restaurante.setAtivo(true);
+    }
+
+    @Transactional
+    public void inativar(Long restauranteId) {
+        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        restaurante.setAtivo(false);
     }
 }

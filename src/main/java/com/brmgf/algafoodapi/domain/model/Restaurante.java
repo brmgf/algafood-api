@@ -80,4 +80,7 @@ public class Restaurante {
 
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
+
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo = true;
 }
