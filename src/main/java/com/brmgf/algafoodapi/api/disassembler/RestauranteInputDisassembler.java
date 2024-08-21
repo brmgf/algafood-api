@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class RestauranteInputDisassembler {
+public class RestauranteInputDisassembler implements InputDisassembler<Restaurante, RestauranteInput> {
 
     private final ModelMapper modelMapper;
 

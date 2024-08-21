@@ -1,6 +1,6 @@
 package com.brmgf.algafoodapi.api.assembler;
 
-import com.brmgf.algafoodapi.api.domain.model.CozinhaDTO;
+import com.brmgf.algafoodapi.api.domain.dto.CozinhaDTO;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class CozinhaDTOAssembler {
+public class CozinhaDTOAssembler implements DTOAssembler<CozinhaDTO, Cozinha> {
 
     private final ModelMapper modelMapper;
 

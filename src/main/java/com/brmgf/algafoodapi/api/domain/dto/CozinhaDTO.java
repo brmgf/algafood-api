@@ -1,4 +1,4 @@
-package com.brmgf.algafoodapi.api.domain.model;
+package com.brmgf.algafoodapi.api.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class EstadoDTO {
+public class CozinhaDTO {
 
     private Long id;
     private String nome;

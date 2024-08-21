@@ -3,7 +3,7 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.api.assembler.CozinhaDTOAssembler;
 import com.brmgf.algafoodapi.api.disassembler.CozinhaInputDisassembler;
 import com.brmgf.algafoodapi.api.domain.input.CozinhaInput;
-import com.brmgf.algafoodapi.api.domain.model.CozinhaDTO;
+import com.brmgf.algafoodapi.api.domain.dto.CozinhaDTO;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCozinhaService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCozinhaService;
 import jakarta.validation.Valid;

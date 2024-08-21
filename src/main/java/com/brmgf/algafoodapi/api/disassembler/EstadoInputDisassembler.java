@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class EstadoInputDisassembler {
+public class EstadoInputDisassembler implements InputDisassembler<Estado, EstadoInput> {
 
     private final ModelMapper modelMapper;
 

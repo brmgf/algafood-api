@@ -1,17 +1,21 @@
-package com.brmgf.algafoodapi.api.domain.model;
+package com.brmgf.algafoodapi.api.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class CidadeDTO {
+public class RestauranteDTO {
 
     private Long id;
     private String nome;
-    private EstadoDTO estado;
+    private BigDecimal taxaFrete;
+    private Boolean ativo;
+    private CozinhaDTO cozinha;
 }

@@ -3,7 +3,7 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.api.assembler.EstadoDTOAssember;
 import com.brmgf.algafoodapi.api.disassembler.EstadoInputDisassembler;
 import com.brmgf.algafoodapi.api.domain.input.EstadoInput;
-import com.brmgf.algafoodapi.api.domain.model.EstadoDTO;
+import com.brmgf.algafoodapi.api.domain.dto.EstadoDTO;
 import com.brmgf.algafoodapi.service.cadastro.CadastroEstadoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaEstadoService;
 import jakarta.validation.Valid;

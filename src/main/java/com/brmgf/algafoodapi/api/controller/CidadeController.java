@@ -3,7 +3,7 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.api.assembler.CidadeDTOAssembler;
 import com.brmgf.algafoodapi.api.disassembler.CidadeInputDisassembler;
 import com.brmgf.algafoodapi.api.domain.input.CidadeInput;
-import com.brmgf.algafoodapi.api.domain.model.CidadeDTO;
+import com.brmgf.algafoodapi.api.domain.dto.CidadeDTO;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCidadeService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
 import jakarta.validation.Valid;

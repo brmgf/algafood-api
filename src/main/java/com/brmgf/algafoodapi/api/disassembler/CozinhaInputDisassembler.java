@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class CozinhaInputDisassembler {
+public class CozinhaInputDisassembler implements InputDisassembler<Cozinha, CozinhaInput> {
 
     private final ModelMapper modelMapper;
 
