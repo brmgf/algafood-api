@@ -5,18 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class RestauranteDTO {
+public class CidadeEstadoDTO {
 
     private Long id;
     private String nome;
-    private BigDecimal taxaFrete;
-    private Boolean ativo;
-    private CozinhaDTO cozinha;
-    private EnderecoDTO endereco;
+    private String nomeEstado;
 }
