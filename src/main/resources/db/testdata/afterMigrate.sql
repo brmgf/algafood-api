@@ -57,3 +57,7 @@ insert into produto (restaurante_id, nome, descricao, preco, ativo) values (1, '
 insert into produto (restaurante_id, nome, descricao, preco, ativo) values (2, 'Feijão', 'Carioca', 250.0, true);
 insert into produto (restaurante_id, nome, descricao, preco, ativo) values (3, 'Macarrão', null, 186.70, true);
 insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, 'Carne', 'Bovina', 345.0, true);
+
+insert into grupo (nome) values ('Administração');
+insert into grupo (nome) values ('Operacional');
+insert into grupo (nome) values ('Estoque');

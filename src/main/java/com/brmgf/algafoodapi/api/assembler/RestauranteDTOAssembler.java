@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -20,6 +19,6 @@ public class RestauranteDTOAssembler implements DTOAssembler<RestauranteDTO, Res
     }
 
     public List<RestauranteDTO> toCollectionDTO(List<Restaurante> restaurantes) {
-        return restaurantes.stream().map(this::toDTO).collect(Collectors.toList());
+        return restaurantes.stream().map(this::toDTO).toList();
     }
 }

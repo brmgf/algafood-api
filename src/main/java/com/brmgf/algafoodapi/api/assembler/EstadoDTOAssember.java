@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -20,6 +19,6 @@ public class EstadoDTOAssember implements DTOAssembler<EstadoDTO, Estado> {
     }
 
     public List<EstadoDTO> toCollectionDTO(List<Estado> estados) {
-        return estados.stream().map(this::toDTO).collect(Collectors.toList());
+        return estados.stream().map(this::toDTO).toList();
     }
 }

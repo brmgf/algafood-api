@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -20,6 +19,6 @@ public class FormaPagamentoDTOAssembler implements DTOAssembler<FormaPagamentoDT
     }
 
     public List<FormaPagamentoDTO> toCollectionDTO(List<FormaPagamento> formasPagamento) {
-        return formasPagamento.stream().map(this::toDTO).collect(Collectors.toList());
+        return formasPagamento.stream().map(this::toDTO).toList();
     }
 }
