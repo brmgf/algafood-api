@@ -1,5 +1,6 @@
 package com.brmgf.algafoodapi.api.disassembler;
 
+import com.brmgf.algafoodapi.api.disassembler.utils.InputDisassembler;
 import com.brmgf.algafoodapi.api.domain.input.EstadoInput;
 import com.brmgf.algafoodapi.domain.model.Estado;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ public class EstadoInputDisassembler implements InputDisassembler<Estado, Estado
 
     private final ModelMapper modelMapper;
 
+    @Override
     public Estado toObjectModel(EstadoInput estadoInput) {
         return modelMapper.map(estadoInput, Estado.class);
     }

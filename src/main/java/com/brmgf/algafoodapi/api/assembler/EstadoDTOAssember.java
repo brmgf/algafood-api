@@ -1,5 +1,6 @@
 package com.brmgf.algafoodapi.api.assembler;
 
+import com.brmgf.algafoodapi.api.assembler.utils.DTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.EstadoDTO;
 import com.brmgf.algafoodapi.domain.model.Estado;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,12 @@ public class EstadoDTOAssember implements DTOAssembler<EstadoDTO, Estado> {
 
     private final ModelMapper modelMapper;
 
+    @Override
     public EstadoDTO toDTO(Estado estado) {
         return modelMapper.map(estado, EstadoDTO.class);
     }
 
+    @Override
     public List<EstadoDTO> toCollectionDTO(List<Estado> estados) {
         return estados.stream().map(this::toDTO).toList();
     }

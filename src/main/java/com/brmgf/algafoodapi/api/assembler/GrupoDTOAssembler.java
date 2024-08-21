@@ -1,5 +1,6 @@
 package com.brmgf.algafoodapi.api.assembler;
 
+import com.brmgf.algafoodapi.api.assembler.utils.DTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.GrupoDTO;
 import com.brmgf.algafoodapi.domain.model.Grupo;
 import lombok.RequiredArgsConstructor;

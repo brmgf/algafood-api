@@ -1,5 +1,6 @@
 package com.brmgf.algafoodapi.api.assembler;
 
+import com.brmgf.algafoodapi.api.assembler.utils.DTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.RestauranteDTO;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,12 @@ public class RestauranteDTOAssembler implements DTOAssembler<RestauranteDTO, Res
 
     private final ModelMapper modelMapper;
 
+    @Override
     public RestauranteDTO toDTO(Restaurante restaurante) {
         return modelMapper.map(restaurante, RestauranteDTO.class);
     }
 
+    @Override
     public List<RestauranteDTO> toCollectionDTO(List<Restaurante> restaurantes) {
         return restaurantes.stream().map(this::toDTO).toList();
     }

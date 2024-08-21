@@ -1,6 +1,7 @@
 package com.brmgf.algafoodapi.api.disassembler;
 
 
+import com.brmgf.algafoodapi.api.disassembler.utils.InputDisassembler;
 import com.brmgf.algafoodapi.api.domain.input.RestauranteInput;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ public class RestauranteInputDisassembler implements InputDisassembler<Restauran
 
     private final ModelMapper modelMapper;
 
+    @Override
     public Restaurante toObjectModel(RestauranteInput restauranteInput) {
         return modelMapper.map(restauranteInput, Restaurante.class);
     }

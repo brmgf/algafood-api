@@ -1,4 +1,4 @@
-package com.brmgf.algafoodapi.api.assembler;
+package com.brmgf.algafoodapi.api.assembler.utils;
 
 import java.util.List;
 

@@ -61,3 +61,7 @@ insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, '
 insert into grupo (nome) values ('Administração');
 insert into grupo (nome) values ('Operacional');
 insert into grupo (nome) values ('Estoque');
+
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('João da Silva', 'joao_silva@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Marta Vania Rocha', 'martav@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Elisa Fernandes Oliveira', 'elisa_oliveirafer@algafood.com', '123', CURRENT_DATE);
