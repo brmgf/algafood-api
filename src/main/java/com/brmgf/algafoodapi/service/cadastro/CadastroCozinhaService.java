@@ -1,9 +1,7 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
-import com.brmgf.algafoodapi.domain.exception.CampoObrigatorioException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
-import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.CozinhaRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCozinhaService;
 import com.brmgf.algafoodapi.util.MensagemErro;
@@ -12,8 +10,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 @Service
@@ -49,17 +45,5 @@ public class CadastroCozinhaService {
                 String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, cozinhaId)
             );
         }
-    }
-
-    @Transactional(readOnly = true)
-    public Cozinha buscarCozinhaRestaurante(Restaurante restaurante) {
-        if (isNull(restaurante.getCozinha()) || isNull(restaurante.getCozinha().getId())) {
-            throw new CampoObrigatorioException(
-                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_CAMPO_OBRIGATORIO.getDescricao(), NOME_ENTIDADE)
-            );
-        }
-
-        Long cozinhaId = restaurante.getCozinha().getId();
-        return consultaCozinhaService.buscar(cozinhaId);
     }
 }

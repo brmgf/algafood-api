@@ -1,9 +1,12 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
+import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;
+import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaCozinhaService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +24,18 @@ public class CadastroRestauranteService {
 
     private final RestauranteRepository restauranteRepository;
     private final ConsultaRestauranteService consultaRestauranteService;
-    private final CadastroCozinhaService cadastroCozinhaService;
+    private final ConsultaCozinhaService consultaCozinhaService;
+    private final ConsultaCidadeService consultaCidadeService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         try {
-            restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(restaurante));
+            restaurante.setCozinha(consultaCozinhaService.buscarCozinhaRestaurante(restaurante));
+            restaurante.getEndereco().setCidade(consultaCidadeService.buscarCidadeEndereco(restaurante.getEndereco()));
+
             return restauranteRepository.save(restaurante);
-        } catch (CozinhaNaoEncontradaException cozinhaNaoEncontradaException) {
-            throw new NegocioException(cozinhaNaoEncontradaException.getMessage(), cozinhaNaoEncontradaException);
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException exception) {
+            throw new NegocioException(exception.getMessage(), exception);
         }
     }
 
@@ -38,13 +44,15 @@ public class CadastroRestauranteService {
         Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
 
         BeanUtils.copyProperties(novoRestaurante, restaurante,
-                "id", "formasPagamento", "endereco", "dataHoraCadastro", "produtos");
+                "id", "formasPagamento", "dataHoraCadastro", "produtos");
 
         try {
-            restaurante.setCozinha(cadastroCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
+            restaurante.setCozinha(consultaCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
+            restaurante.getEndereco().setCidade(consultaCidadeService.buscarCidadeEndereco(novoRestaurante.getEndereco()));
+
             return restauranteRepository.save(restaurante);
-        } catch (CozinhaNaoEncontradaException cozinhaNaoEncontradaException) {
-            throw new NegocioException(cozinhaNaoEncontradaException.getMessage(), cozinhaNaoEncontradaException);
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException exception) {
+            throw new NegocioException(exception.getMessage(), exception);
         }
     }
 
