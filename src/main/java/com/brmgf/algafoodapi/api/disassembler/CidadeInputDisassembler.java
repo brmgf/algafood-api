@@ -14,7 +14,7 @@ public class CidadeInputDisassembler implements InputDisassembler<Cidade, Cidade
     private final ModelMapper modelMapper;
 
     @Override
-    public Cidade toObjectModel(CidadeInput cidadeInput) {
-        return modelMapper.map(cidadeInput, Cidade.class);
+    public Cidade toObjectModel(CidadeInput input) {
+        return modelMapper.map(input, Cidade.class);
     }
 }

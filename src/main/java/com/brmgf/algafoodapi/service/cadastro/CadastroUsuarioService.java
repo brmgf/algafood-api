@@ -55,14 +55,14 @@ public class CadastroUsuarioService {
             repository.flush();
         } catch (DataIntegrityViolationException ex) {
             throw new EntidadeEmUsoException(
-                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), "Usuário", usuarioId)
+                    String.format(MensagemErro.ENTIDADE_EM_USO.getDescricao(), "Usuário", usuarioId)
             );
         }
     }
 
     private void validarSenhaAtual(String senhaInformada, String senhaAtual) {
         if (!senhaInformada.equals(senhaAtual)) {
-            throw new NegocioException(MensagemErro.ERRO_SENHA_ATUAL_DIFERENTE_SENHA_CADASTRADA.getDescricao());
+            throw new NegocioException(MensagemErro.SENHA_ATUAL_DIFERENTE_SENHA_CADASTRADA.getDescricao());
         }
     }
 }

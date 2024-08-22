@@ -19,36 +19,34 @@ import static java.util.Objects.isNull;
 @Service
 public class CadastroEstadoService {
 
-    private static final String NOME_ENTIDADE = "Estado";
-
-    private final EstadoRepository estadoRepository;
-    private final ConsultaEstadoService consultaEstadoService;
+    private final EstadoRepository repository;
+    private final ConsultaEstadoService consultaService;
 
     @Transactional
     public Estado salvar(Estado estado) {
-        consultaEstadoService.validarEstadoCadastradoComMesmoNome(estado, null);
-        return estadoRepository.save(estado);
+        consultaService.validarEstadoCadastradoComMesmoNome(estado, null);
+        return repository.save(estado);
     }
 
     @Transactional
     public Estado atualizar(Long estadoId, Estado novoEstado) {
-        Estado estado = consultaEstadoService.buscar(estadoId);
+        Estado estado = consultaService.buscar(estadoId);
 
-        consultaEstadoService.validarEstadoCadastradoComMesmoNome(novoEstado, estadoId);
+        consultaService.validarEstadoCadastradoComMesmoNome(novoEstado, estadoId);
         BeanUtils.copyProperties(novoEstado, estado, "id");
-        return estadoRepository.save(estado);
+        return repository.save(estado);
     }
 
     @Transactional
     public void remover(Long estadoId) {
         try {
-            Estado estado = consultaEstadoService.buscar(estadoId);
+            Estado estado = consultaService.buscar(estadoId);
 
-            estadoRepository.delete(estado);
-            estadoRepository.flush();
+            repository.delete(estado);
+            repository.flush();
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new EntidadeEmUsoException(
-                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, estadoId)
+                    String.format(MensagemErro.ENTIDADE_EM_USO.getDescricao(), "Estado", estadoId)
             );
         }
     }
@@ -57,11 +55,11 @@ public class CadastroEstadoService {
     public Estado buscarEstadoCidade(Cidade cidade) {
         if (isNull(cidade.getEstado()) || isNull(cidade.getEstado().getId())) {
             throw new CampoObrigatorioException(
-                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_CAMPO_OBRIGATORIO.getDescricao(), NOME_ENTIDADE)
+                    String.format(MensagemErro.CAMPO_OBRIGATORIO.getDescricao(), "Estado")
             );
         }
 
         Long estadoId = cidade.getEstado().getId();
-        return consultaEstadoService.buscar(estadoId);
+        return consultaService.buscar(estadoId);
     }
 }

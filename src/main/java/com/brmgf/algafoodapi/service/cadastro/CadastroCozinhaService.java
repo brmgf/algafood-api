@@ -15,34 +15,32 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CadastroCozinhaService {
 
-    private static final String NOME_ENTIDADE = "Cozinha";
-
-    private final CozinhaRepository cozinhaRepository;
-    private final ConsultaCozinhaService consultaCozinhaService;
+    private final CozinhaRepository repository;
+    private final ConsultaCozinhaService consultaService;
 
     @Transactional
     public Cozinha salvar(Cozinha cozinha) {
-        return cozinhaRepository.save(cozinha);
+        return repository.save(cozinha);
     }
 
     @Transactional
     public Cozinha atualizar(Long cozinhaId, Cozinha novaCozinha) {
-        Cozinha cozinha = consultaCozinhaService.buscar(cozinhaId);
+        Cozinha cozinha = consultaService.buscar(cozinhaId);
 
         BeanUtils.copyProperties(novaCozinha, cozinha, "id");
-        return cozinhaRepository.save(cozinha);
+        return repository.save(cozinha);
     }
 
     @Transactional
     public void remover(Long cozinhaId) {
         try {
-            Cozinha cozinha = consultaCozinhaService.buscar(cozinhaId);
+            Cozinha cozinha = consultaService.buscar(cozinhaId);
 
-            cozinhaRepository.delete(cozinha);
-            cozinhaRepository.flush();
+            repository.delete(cozinha);
+            repository.flush();
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new EntidadeEmUsoException(
-                String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, cozinhaId)
+                String.format(MensagemErro.ENTIDADE_EM_USO.getDescricao(), "Cozinha", cozinhaId)
             );
         }
     }

@@ -1,8 +1,7 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
-import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CidadeNaoEncontradaException;
-import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
@@ -22,8 +21,8 @@ import java.util.Map;
 @Service
 public class CadastroRestauranteService {
 
-    private final RestauranteRepository restauranteRepository;
-    private final ConsultaRestauranteService consultaRestauranteService;
+    private final RestauranteRepository repository;
+    private final ConsultaRestauranteService consultaService;
     private final ConsultaCozinhaService consultaCozinhaService;
     private final ConsultaCidadeService consultaCidadeService;
 
@@ -33,15 +32,15 @@ public class CadastroRestauranteService {
             restaurante.setCozinha(consultaCozinhaService.buscarCozinhaRestaurante(restaurante));
             restaurante.getEndereco().setCidade(consultaCidadeService.buscarCidadeEndereco(restaurante.getEndereco()));
 
-            return restauranteRepository.save(restaurante);
-        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException exception) {
-            throw new NegocioException(exception.getMessage(), exception);
+            return repository.save(restaurante);
+        } catch (EntidadeNaoEncontradaException ex) {
+            throw new NegocioException(ex.getMessage(), ex);
         }
     }
 
     @Transactional
     public Restaurante atualizar(Long restauranteId, Restaurante novoRestaurante) {
-        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        Restaurante restaurante = consultaService.buscar(restauranteId);
 
         BeanUtils.copyProperties(novoRestaurante, restaurante,
                 "id", "formasPagamento", "dataHoraCadastro", "produtos");
@@ -50,23 +49,23 @@ public class CadastroRestauranteService {
             restaurante.setCozinha(consultaCozinhaService.buscarCozinhaRestaurante(novoRestaurante));
             restaurante.getEndereco().setCidade(consultaCidadeService.buscarCidadeEndereco(novoRestaurante.getEndereco()));
 
-            return restauranteRepository.save(restaurante);
-        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException exception) {
-            throw new NegocioException(exception.getMessage(), exception);
+            return repository.save(restaurante);
+        } catch (EntidadeNaoEncontradaException ex) {
+            throw new NegocioException(ex.getMessage(), ex);
         }
     }
 
     @Transactional
     public void remover(Long restauranteId) {
-        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        Restaurante restaurante = consultaService.buscar(restauranteId);
 
-        restauranteRepository.delete(restaurante);
-        restauranteRepository.flush();
+        repository.delete(restaurante);
+        repository.flush();
     }
 
     @Transactional
     public Restaurante atualizarDadosParcialmente(Long restauranteId, Map<String, Object> dadosOrigem) {
-        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        Restaurante restaurante = consultaService.buscar(restauranteId);
 
         ObjectMapper objectMapper = new ObjectMapper();
         Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
@@ -79,18 +78,18 @@ public class CadastroRestauranteService {
             ReflectionUtils.setField(field, restaurante, novoValor);
         });
 
-        return restauranteRepository.save(restaurante);
+        return repository.save(restaurante);
     }
 
     @Transactional
     public void ativar(Long restauranteId) {
-        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        Restaurante restaurante = consultaService.buscar(restauranteId);
         restaurante.setAtivo(true);
     }
 
     @Transactional
     public void inativar(Long restauranteId) {
-        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        Restaurante restaurante = consultaService.buscar(restauranteId);
         restaurante.setAtivo(false);
     }
 }

@@ -26,36 +26,34 @@ import java.util.List;
 @RestController
 public class CidadeController {
 
-    private final ConsultaCidadeService consultaCidadeService;
-    private final CadastroCidadeService cadastroCidadeService;
-    private final CidadeDTOAssembler cidadeDTOAssembler;
-    private final CidadeInputDisassembler cidadeInputDisassembler;
+    private final ConsultaCidadeService consultaService;
+    private final CadastroCidadeService cadastroService;
+    private final CidadeDTOAssembler assembler;
+    private final CidadeInputDisassembler disassembler;
 
     @GetMapping
     public List<CidadeDTO> listar() {
-        return cidadeDTOAssembler.toCollectionDTO(consultaCidadeService.listar());
+        return assembler.toCollectionDTO(consultaService.listar());
     }
 
     @GetMapping("/{cidadeId}")
     public CidadeDTO buscar(@PathVariable Long cidadeId) {
-        return cidadeDTOAssembler.toDTO(consultaCidadeService.buscar(cidadeId));
+        return assembler.toDTO(consultaService.buscar(cidadeId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CidadeDTO salvar(@RequestBody @Valid CidadeInput novaCidade) {
-        return cidadeDTOAssembler
-                .toDTO(cadastroCidadeService.salvar(cidadeInputDisassembler.toObjectModel(novaCidade)));
+    public CidadeDTO salvar(@RequestBody @Valid CidadeInput input) {
+        return assembler.toDTO(cadastroService.salvar(disassembler.toObjectModel(input)));
     }
 
     @PutMapping("/{cidadeId}")
-    public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput novaCidade) {
-        return cidadeDTOAssembler
-                .toDTO(cadastroCidadeService.atualizar(cidadeId, cidadeInputDisassembler.toObjectModel(novaCidade)));
+    public CidadeDTO atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput input) {
+        return assembler.toDTO(cadastroService.atualizar(cidadeId, disassembler.toObjectModel(input)));
     }
 
     @DeleteMapping("/{cidadeId}")
     public void remover(@PathVariable Long cidadeId) {
-        cadastroCidadeService.remover(cidadeId);
+        cadastroService.remover(cidadeId);
     }
 }

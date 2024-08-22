@@ -1,7 +1,6 @@
 package com.brmgf.algafoodapi;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
-import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.CozinhaNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCozinhaService;
 import jakarta.validation.ConstraintViolationException;

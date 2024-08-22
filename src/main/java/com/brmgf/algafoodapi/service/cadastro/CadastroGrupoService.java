@@ -15,34 +15,32 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CadastroGrupoService {
 
-    private static final String NOME_ENTIDADE = "Grupo";
-
-    private final GrupoRepository grupoRepository;
-    private final ConsultaGrupoService consultaGrupoService;
+    private final GrupoRepository repository;
+    private final ConsultaGrupoService consultaService;
 
     @Transactional
     public Grupo salvar(Grupo grupo) {
-        return grupoRepository.save(grupo);
+        return repository.save(grupo);
     }
 
     @Transactional
     public Grupo atualizar(Long grupoId, Grupo novoGrupo) {
-        Grupo grupo = consultaGrupoService.buscar(grupoId);
+        Grupo grupo = consultaService.buscar(grupoId);
 
         BeanUtils.copyProperties(novoGrupo, grupo, "id");
-        return grupoRepository.save(grupo);
+        return repository.save(grupo);
     }
 
     @Transactional
     public void remover(Long grupoId) {
         try {
-            Grupo grupo = consultaGrupoService.buscar(grupoId);
+            Grupo grupo = consultaService.buscar(grupoId);
 
-            grupoRepository.delete(grupo);
-            grupoRepository.flush();
+            repository.delete(grupo);
+            repository.flush();
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new EntidadeEmUsoException(
-                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, grupoId)
+                    String.format(MensagemErro.ENTIDADE_EM_USO.getDescricao(), "Grupo", grupoId)
             );
         }
     }

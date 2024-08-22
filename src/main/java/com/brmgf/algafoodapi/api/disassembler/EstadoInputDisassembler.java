@@ -14,7 +14,7 @@ public class EstadoInputDisassembler implements InputDisassembler<Estado, Estado
     private final ModelMapper modelMapper;
 
     @Override
-    public Estado toObjectModel(EstadoInput estadoInput) {
-        return modelMapper.map(estadoInput, Estado.class);
+    public Estado toObjectModel(EstadoInput input) {
+        return modelMapper.map(input, Estado.class);
     }
 }

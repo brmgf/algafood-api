@@ -26,36 +26,34 @@ import java.util.List;
 @RestController
 public class CozinhaController {
 
-    private final ConsultaCozinhaService consultaCozinhaService;
-    private final CadastroCozinhaService cadastroCozinhaService;
-    private final CozinhaDTOAssembler cozinhaDTOAssembler;
-    private final CozinhaInputDisassembler cozinhaInputDisassembler;
+    private final ConsultaCozinhaService consultaService;
+    private final CadastroCozinhaService cadastroService;
+    private final CozinhaDTOAssembler assembler;
+    private final CozinhaInputDisassembler disassembler;
 
     @GetMapping
     public List<CozinhaDTO> listar() {
-        return cozinhaDTOAssembler.toCollectionDTO(consultaCozinhaService.listar());
+        return assembler.toCollectionDTO(consultaService.listar());
     }
 
     @GetMapping("/{id}")
     public CozinhaDTO buscar(@PathVariable Long id) {
-        return cozinhaDTOAssembler.toDTO(consultaCozinhaService.buscar(id));
+        return assembler.toDTO(consultaService.buscar(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CozinhaDTO salvar(@RequestBody @Valid CozinhaInput cozinha) {
-        return cozinhaDTOAssembler
-                .toDTO(cadastroCozinhaService.salvar(cozinhaInputDisassembler.toObjectModel(cozinha)));
+    public CozinhaDTO salvar(@RequestBody @Valid CozinhaInput input) {
+        return assembler.toDTO(cadastroService.salvar(disassembler.toObjectModel(input)));
     }
 
     @PutMapping("/{cozinhaId}")
-    public CozinhaDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinha) {
-        return cozinhaDTOAssembler
-                .toDTO(cadastroCozinhaService.atualizar(cozinhaId, cozinhaInputDisassembler.toObjectModel(cozinha)));
+    public CozinhaDTO atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput input) {
+        return assembler.toDTO(cadastroService.atualizar(cozinhaId, disassembler.toObjectModel(input)));
     }
 
     @DeleteMapping("/{cozinhaId}")
     public void remover(@PathVariable Long cozinhaId) {
-        cadastroCozinhaService.remover(cozinhaId);
+        cadastroService.remover(cozinhaId);
     }
 }

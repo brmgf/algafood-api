@@ -28,53 +28,52 @@ import java.util.Map;
 @RestController
 public class RestauranteController {
 
-    private final ConsultaRestauranteService consultaRestauranteService;
-    private final CadastroRestauranteService cadastroRestauranteService;
-    private final RestauranteDTOAssembler restauranteDTOAssembler;
-    private final RestauranteInputDisassembler restauranteInputDisassembler;
+    private final ConsultaRestauranteService consultaService;
+    private final CadastroRestauranteService cadastroService;
+    private final RestauranteDTOAssembler assembler;
+    private final RestauranteInputDisassembler disassembler;
 
     @GetMapping
     public List<RestauranteDTO> listar() {
-        return restauranteDTOAssembler.toCollectionDTO(consultaRestauranteService.listar());
+        return assembler.toCollectionDTO(consultaService.listar());
     }
 
     @GetMapping("/{restauranteId}")
     public RestauranteDTO buscar(@PathVariable Long restauranteId) {
-        return restauranteDTOAssembler.toDTO(consultaRestauranteService.buscar(restauranteId));
+        return assembler.toDTO(consultaService.buscar(restauranteId));
     }
 
     @PostMapping
-    public RestauranteDTO salvar(@RequestBody @Valid RestauranteInput restauranteInput) {
-        return restauranteDTOAssembler
-                .toDTO(cadastroRestauranteService.salvar(restauranteInputDisassembler.toObjectModel(restauranteInput)));
+    public RestauranteDTO salvar(@RequestBody @Valid RestauranteInput input) {
+        return assembler.toDTO(cadastroService.salvar(disassembler.toObjectModel(input)));
     }
 
     @PutMapping("/{restauranteId}")
-    public RestauranteDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restaurante) {
-        return restauranteDTOAssembler
-                .toDTO(cadastroRestauranteService.atualizar(restauranteId, restauranteInputDisassembler.toObjectModel(restaurante)));
+    public RestauranteDTO atualizar(@PathVariable Long restauranteId,
+                                    @RequestBody @Valid RestauranteInput input) {
+        return assembler.toDTO(cadastroService.atualizar(restauranteId, disassembler.toObjectModel(input)));
     }
 
     @DeleteMapping("/{restauranteId}")
     public void remover(@PathVariable Long restauranteId) {
-        cadastroRestauranteService.remover(restauranteId);
+        cadastroService.remover(restauranteId);
     }
 
     @PatchMapping("/{restauranteId}")
-    public RestauranteDTO atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
-        return restauranteDTOAssembler
-                .toDTO(cadastroRestauranteService.atualizarDadosParcialmente(restauranteId, campos));
+    public RestauranteDTO atualizarParcial(@PathVariable Long restauranteId,
+                                           @RequestBody Map<String, Object> campos) {
+        return assembler.toDTO(cadastroService.atualizarDadosParcialmente(restauranteId, campos));
     }
 
     @PutMapping("/{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ativar(@PathVariable Long restauranteId) {
-        cadastroRestauranteService.ativar(restauranteId);
+        cadastroService.ativar(restauranteId);
     }
 
     @PutMapping("/{restauranteId}/inativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@PathVariable Long restauranteId) {
-        cadastroRestauranteService.inativar(restauranteId);
+        cadastroService.inativar(restauranteId);
     }
 }

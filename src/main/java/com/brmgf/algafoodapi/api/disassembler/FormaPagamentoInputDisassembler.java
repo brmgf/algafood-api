@@ -14,7 +14,7 @@ public class FormaPagamentoInputDisassembler implements InputDisassembler<FormaP
     private final ModelMapper modelMapper;
 
     @Override
-    public FormaPagamento toObjectModel(FormaPagamentoInput formaPagamentoInput) {
-        return modelMapper.map(formaPagamentoInput, FormaPagamento.class);
+    public FormaPagamento toObjectModel(FormaPagamentoInput input) {
+        return modelMapper.map(input, FormaPagamento.class);
     }
 }

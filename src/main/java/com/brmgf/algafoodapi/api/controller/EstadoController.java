@@ -26,36 +26,34 @@ import java.util.List;
 @RestController
 public class EstadoController {
 
-    private final ConsultaEstadoService consultaEstadoService;
-    private final CadastroEstadoService cadastroEstadoService;
-    private final EstadoDTOAssember estadoDTOAssember;
-    private final EstadoInputDisassembler estadoInputDisassembler;
+    private final ConsultaEstadoService consultaService;
+    private final CadastroEstadoService cadastroService;
+    private final EstadoDTOAssember assember;
+    private final EstadoInputDisassembler disassembler;
 
     @GetMapping
     public List<EstadoDTO> listar() {
-        return estadoDTOAssember.toCollectionDTO(consultaEstadoService.listar());
+        return assember.toCollectionDTO(consultaService.listar());
     }
 
     @GetMapping("/{estadoId}")
     public EstadoDTO buscar(@PathVariable Long estadoId) {
-        return estadoDTOAssember.toDTO(consultaEstadoService.buscar(estadoId));
+        return assember.toDTO(consultaService.buscar(estadoId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public EstadoDTO salvar(@RequestBody @Valid EstadoInput estado) {
-        return estadoDTOAssember
-                .toDTO(cadastroEstadoService.salvar(estadoInputDisassembler.toObjectModel(estado)));
+    public EstadoDTO salvar(@RequestBody @Valid EstadoInput input) {
+        return assember.toDTO(cadastroService.salvar(disassembler.toObjectModel(input)));
     }
 
     @PutMapping("/{estadoId}")
-    public EstadoDTO atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estado) {
-        return estadoDTOAssember
-                .toDTO(cadastroEstadoService.atualizar(estadoId, estadoInputDisassembler.toObjectModel(estado)));
+    public EstadoDTO atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput input) {
+        return assember.toDTO(cadastroService.atualizar(estadoId, disassembler.toObjectModel(input)));
     }
 
     @DeleteMapping("/{estadoId}")
     public void remover(@PathVariable Long estadoId) {
-        cadastroEstadoService.remover(estadoId);
+        cadastroService.remover(estadoId);
     }
 }

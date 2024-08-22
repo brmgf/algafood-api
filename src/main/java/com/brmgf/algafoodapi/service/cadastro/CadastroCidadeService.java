@@ -1,7 +1,7 @@
 package com.brmgf.algafoodapi.service.cadastro;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
-import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.EstadoNaoEncontradoException;
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Cidade;
 import com.brmgf.algafoodapi.domain.repository.CidadeRepository;
@@ -13,52 +13,48 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-
 @RequiredArgsConstructor
 @Service
 public class CadastroCidadeService {
 
-    private static final String NOME_ENTIDADE = "Cidade";
-
-    private final CidadeRepository cidadeRepository;
-    private final ConsultaCidadeService consultaCidadeService;
-    private final CadastroEstadoService cadastroEstadoService;
+    private final CidadeRepository repository;
+    private final ConsultaCidadeService consultaService;
+    private final CadastroEstadoService cadastroService;
 
     @Transactional
     public Cidade salvar(Cidade cidade) {
         try {
-            cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(cidade));
-            return cidadeRepository.save(cidade);
-        } catch (EstadoNaoEncontradoException estadoNaoEncontradoException) {
-            throw new NegocioException(estadoNaoEncontradoException.getMessage(), estadoNaoEncontradoException);
+            cidade.setEstado(cadastroService.buscarEstadoCidade(cidade));
+            return repository.save(cidade);
+        } catch (EntidadeNaoEncontradaException ex) {
+            throw new NegocioException(ex.getMessage(), ex);
         }
     }
 
     @Transactional
     public Cidade atualizar(Long cidadeId, Cidade novaCidade) {
-        Cidade cidade = consultaCidadeService.buscar(cidadeId);
+        Cidade cidade = consultaService.buscar(cidadeId);
 
         BeanUtils.copyProperties(novaCidade, cidade, "id");
 
         try {
-            cidade.setEstado(cadastroEstadoService.buscarEstadoCidade(novaCidade));
-            return cidadeRepository.save(cidade);
-        } catch (EstadoNaoEncontradoException estadoNaoEncontradoException) {
-            throw new NegocioException(estadoNaoEncontradoException.getMessage(), estadoNaoEncontradoException);
+            cidade.setEstado(cadastroService.buscarEstadoCidade(novaCidade));
+            return repository.save(cidade);
+        } catch (EntidadeNaoEncontradaException ex) {
+            throw new NegocioException(ex.getMessage(), ex);
         }
     }
 
     @Transactional
     public void remover(Long cidadeId) {
         try {
-            Cidade cidade = consultaCidadeService.buscar(cidadeId);
+            Cidade cidade = consultaService.buscar(cidadeId);
 
-            cidadeRepository.delete(cidade);
-            cidadeRepository.flush();
+            repository.delete(cidade);
+            repository.flush();
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new EntidadeEmUsoException(
-                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, cidadeId)
+                    String.format(MensagemErro.ENTIDADE_EM_USO.getDescricao(), "Cidade", cidadeId)
             );
         }
     }

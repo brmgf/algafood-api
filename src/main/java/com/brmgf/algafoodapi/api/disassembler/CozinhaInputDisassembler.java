@@ -14,7 +14,7 @@ public class CozinhaInputDisassembler implements InputDisassembler<Cozinha, Cozi
     private final ModelMapper modelMapper;
 
     @Override
-    public Cozinha toObjectModel(CozinhaInput cozinhaInput) {
-        return modelMapper.map(cozinhaInput, Cozinha.class);
+    public Cozinha toObjectModel(CozinhaInput input) {
+        return modelMapper.map(input, Cozinha.class);
     }
 }

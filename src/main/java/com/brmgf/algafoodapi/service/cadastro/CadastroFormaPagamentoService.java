@@ -15,34 +15,32 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CadastroFormaPagamentoService {
 
-    private static final String NOME_ENTIDADE = "Forma pagamento";
-
-    private final FormaPagamentoRepository formaPagamentoRepository;
-    private final ConsultaFormaPagamentoService consultaFormaPagamentoService;
+    private final FormaPagamentoRepository repository;
+    private final ConsultaFormaPagamentoService consultaService;
 
     @Transactional
     public FormaPagamento salvar(FormaPagamento formaPagamento) {
-        return formaPagamentoRepository.save(formaPagamento);
+        return repository.save(formaPagamento);
     }
 
     @Transactional
     public FormaPagamento atualizar(Long formaPagamentoId, FormaPagamento novaFormaPagamento) {
-        FormaPagamento formaPagamento = consultaFormaPagamentoService.buscar(formaPagamentoId);
+        FormaPagamento formaPagamento = consultaService.buscar(formaPagamentoId);
 
         BeanUtils.copyProperties(novaFormaPagamento, formaPagamento, "id");
-        return formaPagamentoRepository.save(formaPagamento);
+        return repository.save(formaPagamento);
     }
 
     @Transactional
     public void remover(Long formaPagamentoId) {
         try {
-            FormaPagamento formaPagamento = consultaFormaPagamentoService.buscar(formaPagamentoId);
+            FormaPagamento formaPagamento = consultaService.buscar(formaPagamentoId);
 
-            formaPagamentoRepository.delete(formaPagamento);
-            formaPagamentoRepository.flush();
+            repository.delete(formaPagamento);
+            repository.flush();
         } catch (DataIntegrityViolationException exception) {
             throw new EntidadeEmUsoException(
-                    String.format(MensagemErro.ERRO_REALIZAR_OPERACAO_ENTIDADE_EM_USO.getDescricao(), NOME_ENTIDADE, formaPagamentoId)
+                    String.format(MensagemErro.ENTIDADE_EM_USO.getDescricao(), "Forma de pagamento", formaPagamentoId)
             );
         }
     }

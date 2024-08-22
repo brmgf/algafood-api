@@ -26,36 +26,34 @@ import java.util.List;
 @RestController
 public class GrupoController {
 
-    private final ConsultaGrupoService consultaGrupoService;
-    private final CadastroGrupoService cadastroGrupoService;
-    private final GrupoDTOAssembler grupoDTOAssembler;
-    private final GrupoInputDisassembler grupoInputDisassembler;
+    private final ConsultaGrupoService consultaService;
+    private final CadastroGrupoService cadastroService;
+    private final GrupoDTOAssembler assembler;
+    private final GrupoInputDisassembler disassembler;
 
     @GetMapping
     public List<GrupoDTO> listar() {
-        return grupoDTOAssembler.toCollectionDTO(consultaGrupoService.listar());
+        return assembler.toCollectionDTO(consultaService.listar());
     }
 
     @GetMapping("/{grupoId}")
     public GrupoDTO buscar(@PathVariable Long grupoId) {
-        return grupoDTOAssembler.toDTO(consultaGrupoService.buscar(grupoId));
+        return assembler.toDTO(consultaService.buscar(grupoId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public GrupoDTO salvar(@RequestBody @Valid GrupoInput grupoInput) {
-        return grupoDTOAssembler
-                .toDTO(cadastroGrupoService.salvar(grupoInputDisassembler.toObjectModel(grupoInput)));
+    public GrupoDTO salvar(@RequestBody @Valid GrupoInput input) {
+        return assembler.toDTO(cadastroService.salvar(disassembler.toObjectModel(input)));
     }
 
     @PutMapping("/{grupoId}")
-    public GrupoDTO atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput grupoInput) {
-        return grupoDTOAssembler
-                .toDTO(cadastroGrupoService.atualizar(grupoId, grupoInputDisassembler.toObjectModel(grupoInput)));
+    public GrupoDTO atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput input) {
+        return assembler.toDTO(cadastroService.atualizar(grupoId, disassembler.toObjectModel(input)));
     }
 
     @DeleteMapping("/{grupoId}")
     public void remover(@PathVariable Long grupoId) {
-        cadastroGrupoService.remover(grupoId);
+        cadastroService.remover(grupoId);
     }
 }

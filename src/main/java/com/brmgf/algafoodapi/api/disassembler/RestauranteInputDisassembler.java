@@ -15,7 +15,7 @@ public class RestauranteInputDisassembler implements InputDisassembler<Restauran
     private final ModelMapper modelMapper;
 
     @Override
-    public Restaurante toObjectModel(RestauranteInput restauranteInput) {
-        return modelMapper.map(restauranteInput, Restaurante.class);
+    public Restaurante toObjectModel(RestauranteInput input) {
+        return modelMapper.map(input, Restaurante.class);
     }
 }

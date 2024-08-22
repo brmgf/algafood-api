@@ -4,7 +4,7 @@ import com.brmgf.algafoodapi.domain.exception.CampoObrigatorioException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeCadastradaException;
 import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
-import com.brmgf.algafoodapi.domain.exception.entidadenaoencontrada.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import org.apache.commons.lang3.exception.ExceptionUtils;

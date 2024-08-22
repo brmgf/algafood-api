@@ -14,7 +14,7 @@ public class UsuarioInputDisassembler implements InputDisassembler<Usuario, Usua
     private final ModelMapper modelMapper;
 
     @Override
-    public Usuario toObjectModel(UsuarioInput usuarioInput) {
-        return modelMapper.map(usuarioInput, Usuario.class);
+    public Usuario toObjectModel(UsuarioInput input) {
+        return modelMapper.map(input, Usuario.class);
     }
 }

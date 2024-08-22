@@ -26,36 +26,35 @@ import java.util.List;
 @RestController
 public class FormaPagamentoController {
 
-    private final ConsultaFormaPagamentoService consultaFormaPagamentoService;
-    private final CadastroFormaPagamentoService cadastroFormaPagamentoService;
-    private final FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
-    private final FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
+    private final ConsultaFormaPagamentoService consultaService;
+    private final CadastroFormaPagamentoService cadastroService;
+    private final FormaPagamentoDTOAssembler assembler;
+    private final FormaPagamentoInputDisassembler disassembler;
 
     @GetMapping
     public List<FormaPagamentoDTO> listar() {
-        return formaPagamentoDTOAssembler.toCollectionDTO(consultaFormaPagamentoService.listar());
+        return assembler.toCollectionDTO(consultaService.listar());
     }
 
     @GetMapping("/{formaPagamentoId}")
     public FormaPagamentoDTO buscar(@PathVariable Long formaPagamentoId) {
-        return formaPagamentoDTOAssembler.toDTO(consultaFormaPagamentoService.buscar(formaPagamentoId));
+        return assembler.toDTO(consultaService.buscar(formaPagamentoId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public FormaPagamentoDTO salvar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
-        return formaPagamentoDTOAssembler
-                .toDTO(cadastroFormaPagamentoService.salvar(formaPagamentoInputDisassembler.toObjectModel(formaPagamentoInput)));
+    public FormaPagamentoDTO salvar(@RequestBody @Valid FormaPagamentoInput input) {
+        return assembler.toDTO(cadastroService.salvar(disassembler.toObjectModel(input)));
     }
 
     @PutMapping("/{formaPagamentoId}")
-    public FormaPagamentoDTO atualizar(@PathVariable Long formaPagamentoId, @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
-        return formaPagamentoDTOAssembler
-                .toDTO(cadastroFormaPagamentoService.atualizar(formaPagamentoId, formaPagamentoInputDisassembler.toObjectModel(formaPagamentoInput)));
+    public FormaPagamentoDTO atualizar(@PathVariable Long formaPagamentoId,
+                                       @RequestBody @Valid FormaPagamentoInput input) {
+        return assembler.toDTO(cadastroService.atualizar(formaPagamentoId, disassembler.toObjectModel(input)));
     }
 
     @DeleteMapping("/{formaPagamentoId}")
     public void remover(@PathVariable Long formaPagamentoId) {
-        cadastroFormaPagamentoService.remover(formaPagamentoId);
+        cadastroService.remover(formaPagamentoId);
     }
 }

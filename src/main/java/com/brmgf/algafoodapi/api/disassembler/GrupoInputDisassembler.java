@@ -14,7 +14,7 @@ public class GrupoInputDisassembler implements InputDisassembler<Grupo, GrupoInp
     private final ModelMapper modelMapper;
 
     @Override
-    public Grupo toObjectModel(GrupoInput grupoInput) {
-        return modelMapper.map(grupoInput, Grupo.class);
+    public Grupo toObjectModel(GrupoInput input) {
+        return modelMapper.map(input, Grupo.class);
     }
 }
