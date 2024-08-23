@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +27,7 @@ public class CadastroUsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
+        validarEmailCadastrado(usuario, null);
         usuario.setDataHoraCadastro(LocalDateTime.now());
         return repository.save(usuario);
     }
@@ -32,8 +36,17 @@ public class CadastroUsuarioService {
     public Usuario atualizar(Long usuarioId, Usuario novoUsuario) {
         Usuario usuario = consultaService.buscar(usuarioId);
 
+        validarEmailCadastrado(novoUsuario, usuario);
+
         BeanUtils.copyProperties(novoUsuario, usuario, "id", "senha", "dataHoraCadastro");
         return repository.save(usuario);
+    }
+
+    private void validarEmailCadastrado(Usuario novoUsuario, Usuario usuarioBuscado) {
+        Optional<Usuario> usuarioExistente = repository.findByEmail(novoUsuario.getEmail());
+        if (usuarioExistente.isPresent() && (isNull(usuarioBuscado) || !usuarioExistente.get().equals(usuarioBuscado))) {
+            throw new NegocioException(MensagemErro.USUARIO_CADASTRADO_EMAIL.getDescricao());
+        }
     }
 
     @Transactional
