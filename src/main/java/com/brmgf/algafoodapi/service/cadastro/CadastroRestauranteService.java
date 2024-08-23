@@ -111,4 +111,16 @@ public class CadastroRestauranteService {
 
         restaurante.getFormasPagamento().add(formaPagamento);
     }
+
+    @Transactional
+    public void abrir(Long restauranteId) {
+        Restaurante restaurante = consultaService.buscar(restauranteId);
+        restaurante.setAberto(true);
+    }
+
+    @Transactional
+    public void fechar(Long restauranteId) {
+        Restaurante restaurante = consultaService.buscar(restauranteId);
+        restaurante.setAberto(false);
+    }
 }

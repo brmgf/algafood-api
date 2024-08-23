@@ -85,4 +85,7 @@ public class Restaurante {
 
     @Column(name = "ativo", nullable = false)
     private Boolean ativo = true;
+
+    @Column(name = "aberto", nullable = false)
+    private Boolean aberto = false;
 }

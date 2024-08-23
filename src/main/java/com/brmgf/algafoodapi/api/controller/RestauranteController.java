@@ -65,15 +65,27 @@ public class RestauranteController {
         return assembler.toDTO(cadastroService.atualizarDadosParcialmente(restauranteId, campos));
     }
 
-    @PutMapping("/{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{restauranteId}/ativo")
     public void ativar(@PathVariable Long restauranteId) {
         cadastroService.ativar(restauranteId);
     }
 
-    @PutMapping("/{restauranteId}/inativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{restauranteId}/inativo")
     public void inativar(@PathVariable Long restauranteId) {
         cadastroService.inativar(restauranteId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{restauranteId}/abertura")
+    public void abrir(@PathVariable Long restauranteId) {
+        cadastroService.abrir(restauranteId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{restauranteId}/fechamento")
+    public void fechar(@PathVariable Long restauranteId) {
+        cadastroService.fechar(restauranteId);
     }
 }
