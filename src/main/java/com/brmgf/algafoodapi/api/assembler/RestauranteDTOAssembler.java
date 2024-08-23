@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class RestauranteDTOAssembler implements DTOAssembler<RestauranteDTO, Res
     }
 
     @Override
-    public List<RestauranteDTO> toCollectionDTO(List<Restaurante> restaurantes) {
+    public List<RestauranteDTO> toCollectionDTO(Collection<Restaurante> restaurantes) {
         return restaurantes.stream().map(this::toDTO).toList();
     }
 }

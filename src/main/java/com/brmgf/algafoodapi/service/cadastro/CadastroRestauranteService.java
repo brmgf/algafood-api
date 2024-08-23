@@ -2,10 +2,12 @@ package com.brmgf.algafoodapi.service.cadastro;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
+import com.brmgf.algafoodapi.domain.model.FormaPagamento;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.RestauranteRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCidadeService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaCozinhaService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaFormaPagamentoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class CadastroRestauranteService {
     private final ConsultaRestauranteService consultaService;
     private final ConsultaCozinhaService consultaCozinhaService;
     private final ConsultaCidadeService consultaCidadeService;
+    private final ConsultaFormaPagamentoService consultaFormaPagamentoService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
@@ -91,5 +94,21 @@ public class CadastroRestauranteService {
     public void inativar(Long restauranteId) {
         Restaurante restaurante = consultaService.buscar(restauranteId);
         restaurante.setAtivo(false);
+    }
+
+    @Transactional
+    public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = consultaService.buscar(restauranteId);
+        FormaPagamento formaPagamento = consultaFormaPagamentoService.buscar(formaPagamentoId);
+
+        restaurante.getFormasPagamento().remove(formaPagamento);
+    }
+
+    @Transactional
+    public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = consultaService.buscar(restauranteId);
+        FormaPagamento formaPagamento = consultaFormaPagamentoService.buscar(formaPagamentoId);
+
+        restaurante.getFormasPagamento().add(formaPagamento);
     }
 }

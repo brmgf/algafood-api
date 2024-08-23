@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class FormaPagamentoDTOAssembler implements DTOAssembler<FormaPagamentoDT
     }
 
     @Override
-    public List<FormaPagamentoDTO> toCollectionDTO(List<FormaPagamento> formasPagamento) {
+    public List<FormaPagamentoDTO> toCollectionDTO(Collection<FormaPagamento> formasPagamento) {
         return formasPagamento.stream().map(this::toDTO).toList();
     }
 }
