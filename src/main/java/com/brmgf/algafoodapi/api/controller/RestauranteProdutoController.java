@@ -7,7 +7,6 @@ import com.brmgf.algafoodapi.api.domain.input.ProdutoInput;
 import com.brmgf.algafoodapi.domain.model.Produto;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.service.cadastro.CadastroRestauranteProdutoService;
-import com.brmgf.algafoodapi.service.cadastro.CadastroRestauranteService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteProdutoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import jakarta.validation.Valid;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -43,7 +41,7 @@ public class RestauranteProdutoController {
     @GetMapping("/{produtoId}")
     public ProdutoDTO buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
-        return assembler.toDTO(consultaService.buscarPorIdAndRestauranteId(restaurante, produtoId));
+        return assembler.toDTO(consultaService.buscarPorRestaurante(restaurante, produtoId));
     }
 
     @PostMapping

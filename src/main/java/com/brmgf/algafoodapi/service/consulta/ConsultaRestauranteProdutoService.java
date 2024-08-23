@@ -21,7 +21,7 @@ public class ConsultaRestauranteProdutoService {
     private final ProdutoRepository repository;
 
     @Transactional(readOnly = true)
-    public Produto buscarPorIdAndRestauranteId(Restaurante restaurante, Long produtoId) {
+    public Produto buscarPorRestaurante(Restaurante restaurante, Long produtoId) {
         Optional<Produto> optionalProdutoCadastrado = repository.findById(produtoId);
 
         if (!optionalProdutoCadastrado.isPresent()) {

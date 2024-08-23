@@ -65,8 +65,28 @@ insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, '
 
 insert into grupo (nome) values ('Administração');
 insert into grupo (nome) values ('Operacional');
-insert into grupo (nome) values ('Estoque');
+insert into grupo (nome) values ('Cliente');
 
 insert into usuario (nome, email, senha, data_hora_cadastro) values ('João da Silva', 'joao_silva@algafood.com', '123', CURRENT_DATE);
 insert into usuario (nome, email, senha, data_hora_cadastro) values ('Marta Vania Rocha', 'martav@algafood.com', '123', CURRENT_DATE);
 insert into usuario (nome, email, senha, data_hora_cadastro) values ('Elisa Fernandes Oliveira', 'elisa_oliveirafer@algafood.com', '123', CURRENT_DATE);
+
+insert into permissao (nome, descricao) values ('CADASTRAR_RESTAURANTE', 'Cadastrar restaurante');
+insert into permissao (nome, descricao) values ('CADASTRAR_PRODUTO', 'Cadastrar produto');
+insert into permissao (nome, descricao) values ('ATIVAR_RESTAURANTE', 'Ativar restaurante');
+insert into permissao (nome, descricao) values ('ABRIR_RESTAURANTE', 'Abrir restaurante');
+insert into permissao (nome, descricao) values ('CONSULTAR_RESTAURANTE', 'Consultar restaurantes');
+insert into permissao (nome, descricao) values ('CONSULTAR_PRODUTO', 'Consultar produtos');
+
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 2);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 3);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 4);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 5);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 6);
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 2);
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 3);
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 5);
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 6);
+insert into grupo_permissao (grupo_id, permissao_id) values (3, 5);
+insert into grupo_permissao (grupo_id, permissao_id) values (3, 6);

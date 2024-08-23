@@ -4,7 +4,6 @@ import com.brmgf.algafoodapi.domain.model.Produto;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.ProdutoRepository;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteProdutoService;
-import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class CadastroRestauranteProdutoService {
 
     @Transactional
     public Produto atualizar(Long produtoId, Produto novoProduto, Restaurante restaurante) {
-        Produto produto = consultaService.buscarPorIdAndRestauranteId(restaurante, produtoId);
+        Produto produto = consultaService.buscarPorRestaurante(restaurante, produtoId);
 
         BeanUtils.copyProperties(novoProduto, produto, "id");
         produto.setRestaurante(restaurante);
