@@ -52,11 +52,16 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (3, 1);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (4, 2), (4, 3), (4,4);
 
-insert into produto (restaurante_id, nome, descricao, preco, ativo) values (1, 'Carne', 'Bovina e suína', 500.0, true);
-insert into produto (restaurante_id, nome, descricao, preco, ativo) values (1, 'Carvão', null, 215.0, false);
-insert into produto (restaurante_id, nome, descricao, preco, ativo) values (2, 'Feijão', 'Carioca', 250.0, true);
-insert into produto (restaurante_id, nome, descricao, preco, ativo) values (3, 'Macarrão', null, 186.70, true);
-insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, 'Carne', 'Bovina', 345.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (1, 'Churrasco', 'Porção de churrasco com carnes variadas', 45.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (1, 'Fraldinha', 'Porção de fraldinha', 50.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (2, 'Marmitex pequeno', 'Arroz, feijão, carne do dia e salada. Serve 1 pessoa', 20.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (2, 'Marmitex grande', 'Arroz, feijão, carne do dia e salada. Serve 2 pessoas', 25.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (3, 'Pad Thai', "Macarrão frito com camarão e especiarias", 38.00, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (3, 'Tom Yum', "Ensopado picante com camarão, cogumelos e especiarias", 34.50, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (3, 'Som Tam', "Salada picante de mamão verde", 27.50, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, 'Taquitos de carne bovina', 'Tacos recheados com carne moída, cebola e molho spice', 10.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, 'Taquitos vegetarianos', 'Tacos recheados com feijão, cebola e molho spice', 10.0, true);
+insert into produto (restaurante_id, nome, descricao, preco, ativo) values (4, 'Guaraná Lata', null, 5.0, false);
 
 insert into grupo (nome) values ('Administração');
 insert into grupo (nome) values ('Operacional');

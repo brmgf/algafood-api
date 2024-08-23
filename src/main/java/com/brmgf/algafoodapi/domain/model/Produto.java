@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,17 +31,20 @@ public class Produto {
     @Id
     private Long id;
 
+    @NotBlank
     @Column(length = 30, nullable = false)
     private String nome;
 
     @Column(length = 60)
     private String descricao;
 
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal preco;
 
+    @NotNull
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)

@@ -9,7 +9,8 @@ public enum MensagemErro {
     CAMPO_OBRIGATORIO("Não foi possível realizar operação. %s é um campo obrigatório."),
     ENTIDADE_JA_CADASTRADA("Não foi possível realizar operação. Este(a) %s já está cadastrado(a) no sistema."),
     SENHA_ATUAL_DIFERENTE_SENHA_CADASTRADA("A senha atual não coincide com a senha cadastrada do usuário."),
-    USUARIO_CADASTRADO_EMAIL("Já existe um usuário cadastrado com o e-mail.");
+    USUARIO_CADASTRADO_EMAIL("Já existe um usuário cadastrado com o e-mail."),
+    ENTIDADE_NAO_POSSUI_VINCULO("%s de código %d não possui o(a) %s de código %d.");
 
     @Getter
     private String descricao;
