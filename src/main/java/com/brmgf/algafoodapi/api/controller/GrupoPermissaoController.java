@@ -4,7 +4,7 @@ import com.brmgf.algafoodapi.api.assembler.PermissaoDTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.PermissaoDTO;
 import com.brmgf.algafoodapi.domain.model.Grupo;
 import com.brmgf.algafoodapi.domain.model.Permissao;
-import com.brmgf.algafoodapi.service.cadastro.CadastroGrupoPermissaoService;
+import com.brmgf.algafoodapi.service.associacao.AssociacaoGrupoPermissaoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaGrupoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaPermissaoService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 public class GrupoPermissaoController {
 
-    private final CadastroGrupoPermissaoService cadastroService;
+    private final AssociacaoGrupoPermissaoService cadastroService;
     private final ConsultaGrupoService consultaGrupoService;
     private final ConsultaPermissaoService consultaPermissaoService;
     private final PermissaoDTOAssembler assembler;

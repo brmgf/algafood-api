@@ -46,7 +46,7 @@ public class ConsultaGrupoService {
                 .findFirst()
                 .orElseThrow(() -> new NegocioException(
                         String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
-                                GRUPO, grupoId, USUARIO, usuario.getId())
+                                GRUPO, USUARIO)
                 ));
 
         return grupoUsuario;

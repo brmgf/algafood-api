@@ -38,7 +38,7 @@ public class ConsultaRestauranteProdutoService {
         if (!produtoRestaurante.isPresent()) {
             throw new NegocioException(
                     String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
-                            RESTAURANTE, restaurante.getId(), PRODUTO.toLowerCase(), produtoId));
+                            RESTAURANTE, PRODUTO.toLowerCase()));
         }
 
         return produtoRestaurante.get();

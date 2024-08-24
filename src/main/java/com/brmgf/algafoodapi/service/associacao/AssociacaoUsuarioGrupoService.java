@@ -1,4 +1,4 @@
-package com.brmgf.algafoodapi.service.cadastro;
+package com.brmgf.algafoodapi.service.associacao;
 
 import com.brmgf.algafoodapi.domain.model.Grupo;
 import com.brmgf.algafoodapi.domain.model.Usuario;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroUsuarioGrupoService {
+public class AssociacaoUsuarioGrupoService {
 
     @Transactional
     public void associarGrupoUsuario(Usuario usuario, Grupo grupo) {

@@ -4,7 +4,7 @@ import com.brmgf.algafoodapi.api.assembler.FormaPagamentoDTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.FormaPagamentoDTO;
 import com.brmgf.algafoodapi.domain.model.FormaPagamento;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
-import com.brmgf.algafoodapi.service.cadastro.CadastroFormaPagamentoRestauranteService;
+import com.brmgf.algafoodapi.service.associacao.AssociacaoFormaPagamentoRestauranteService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaFormaPagamentoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 public class RestauranteFormaPagamentoController {
 
-    private final CadastroFormaPagamentoRestauranteService service;
+    private final AssociacaoFormaPagamentoRestauranteService service;
     private final ConsultaRestauranteService consultaRestauranteService;
     private final ConsultaFormaPagamentoService consultaFormaPagamentoService;
     private final FormaPagamentoDTOAssembler assembler;

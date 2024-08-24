@@ -88,4 +88,10 @@ public class Restaurante {
 
     @Column(name = "aberto", nullable = false)
     private Boolean aberto = false;
+
+    @ManyToMany
+    @JoinTable(name = "restaurante_usuario_responsavel",
+            joinColumns = @JoinColumn(name = "restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    private Set<Usuario> usuariosResponsaveis = new HashSet<>();
 }

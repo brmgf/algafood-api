@@ -40,7 +40,7 @@ public class ConsultaPermissaoService {
                 .findFirst()
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(
                         String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
-                                PERMISSAO, permissaoId, GRUPO, grupo.getId())
+                                PERMISSAO, GRUPO)
                 ));
 
         return permissaoGrupo;

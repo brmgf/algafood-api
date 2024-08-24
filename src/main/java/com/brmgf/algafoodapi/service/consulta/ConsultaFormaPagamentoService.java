@@ -40,7 +40,7 @@ public class ConsultaFormaPagamentoService {
                 .findFirst()
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(
                         String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
-                                FORMA_PAGAMENTO, formaPagamentoId, RESTAURANTE, formaPagamentoId)
+                                FORMA_PAGAMENTO, RESTAURANTE)
                 ));
 
         return formaPagamentoRestaurante;

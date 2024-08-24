@@ -12,6 +12,7 @@ delete from restaurante;
 delete from restaurante_forma_pagamento;
 delete from usuario;
 delete from usuario_grupo;
+delete from restaurante_usuario_responsavel;
 
 set foreign_key_checks = 1;
 
@@ -67,9 +68,12 @@ insert into grupo (nome) values ('Administração');
 insert into grupo (nome) values ('Operacional');
 insert into grupo (nome) values ('Cliente');
 
-insert into usuario (nome, email, senha, data_hora_cadastro) values ('João da Silva', 'joao_silva@algafood.com', '123', CURRENT_DATE);
-insert into usuario (nome, email, senha, data_hora_cadastro) values ('Marta Vania Rocha', 'martav@algafood.com', '123', CURRENT_DATE);
-insert into usuario (nome, email, senha, data_hora_cadastro) values ('Elisa Fernandes Oliveira', 'elisa_oliveirafer@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Pedro Silva', 'joao_silva@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Marta Rocha', 'martav@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Elisa Oliveira', 'elisa_oliveirafer@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Marcelo Sousa', 'marcelo@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Wagner Fagundes', 'w_fagundes@algafood.com', '123', CURRENT_DATE);
+insert into usuario (nome, email, senha, data_hora_cadastro) values ('Otávio Miranda', 'otavio@algafood.com', '123', CURRENT_DATE);
 
 insert into permissao (nome, descricao) values ('CADASTRAR_RESTAURANTE', 'Cadastrar restaurante');
 insert into permissao (nome, descricao) values ('CADASTRAR_PRODUTO', 'Cadastrar produto');
@@ -94,3 +98,5 @@ insert into grupo_permissao (grupo_id, permissao_id) values (3, 6);
 insert into usuario_grupo (usuario_id, grupo_id) values (1, 1);
 insert into usuario_grupo (usuario_id, grupo_id) values (2, 2);
 insert into usuario_grupo (usuario_id, grupo_id) values (3, 3);
+
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 1), (1,2), (2,3), (3,4);

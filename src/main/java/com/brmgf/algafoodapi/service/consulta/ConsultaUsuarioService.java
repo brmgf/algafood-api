@@ -1,6 +1,8 @@
 package com.brmgf.algafoodapi.service.consulta;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.brmgf.algafoodapi.domain.exception.NegocioException;
+import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.model.Usuario;
 import com.brmgf.algafoodapi.domain.repository.UsuarioRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;
@@ -15,6 +17,7 @@ import java.util.List;
 public class ConsultaUsuarioService {
 
     private static final String USUARIO = "Usuário";
+    private static final String RESTAURANTE = "restaurante";
 
     private final UsuarioRepository repository;
 
@@ -29,5 +32,23 @@ public class ConsultaUsuarioService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(
                         String.format(MensagemErro.ENTIDADE_NAO_ENCONTRADA.getDescricao(), USUARIO, usuarioId)
                 ));
+    }
+
+    @Transactional(readOnly = true)
+    public Usuario buscarUsuarioResponsavelRestaurante(Restaurante restaurante, Long usuarioId) {
+        Usuario usuarioCadastrado = repository.findById(usuarioId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(MensagemErro.ENTIDADE_NAO_ENCONTRADA.getDescricao(), USUARIO, usuarioId)
+                ));
+
+        Usuario usuarioResponsavel = restaurante.getUsuariosResponsaveis().stream()
+                .filter(u -> usuarioCadastrado.getId().equals(u.getId()))
+                .findFirst()
+                .orElseThrow(() -> new NegocioException(
+                String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
+                        USUARIO, RESTAURANTE)
+        ));
+
+        return usuarioResponsavel;
     }
 }
