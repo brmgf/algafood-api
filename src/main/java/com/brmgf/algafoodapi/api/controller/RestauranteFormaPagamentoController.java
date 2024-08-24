@@ -2,8 +2,10 @@ package com.brmgf.algafoodapi.api.controller;
 
 import com.brmgf.algafoodapi.api.assembler.FormaPagamentoDTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.FormaPagamentoDTO;
+import com.brmgf.algafoodapi.domain.model.FormaPagamento;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
-import com.brmgf.algafoodapi.service.cadastro.CadastroRestauranteService;
+import com.brmgf.algafoodapi.service.cadastro.CadastroFormaPagamentoRestauranteService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaFormaPagamentoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,8 +24,9 @@ import java.util.List;
 @RestController
 public class RestauranteFormaPagamentoController {
 
+    private final CadastroFormaPagamentoRestauranteService service;
     private final ConsultaRestauranteService consultaRestauranteService;
-    private final CadastroRestauranteService cadastroRestauranteService;
+    private final ConsultaFormaPagamentoService consultaFormaPagamentoService;
     private final FormaPagamentoDTOAssembler assembler;
 
     @GetMapping
@@ -33,13 +36,19 @@ public class RestauranteFormaPagamentoController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{formaPagamentoId}")
-    public void desassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-        cadastroRestauranteService.desassociarFormaPagamento(restauranteId, formaPagamentoId);
-    }
-
     @PutMapping("/{formaPagamentoId}")
     public void associar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-        cadastroRestauranteService.associarFormaPagamento(restauranteId, formaPagamentoId);
+        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        FormaPagamento formaPagamento = consultaFormaPagamentoService.buscar(formaPagamentoId);
+        service.associarFormaPagamentoRestaurante(restaurante, formaPagamento);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{formaPagamentoId}")
+    public void desassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        FormaPagamento formaPagamento = consultaFormaPagamentoService
+                .buscarFormaPagamentoRestaurante(restaurante, formaPagamentoId);
+        service.desassociarFormaPagamentoRestaurante(restaurante, formaPagamento);
     }
 }

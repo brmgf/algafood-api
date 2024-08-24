@@ -2,11 +2,9 @@ package com.brmgf.algafoodapi.service.cadastro;
 
 import com.brmgf.algafoodapi.domain.model.Grupo;
 import com.brmgf.algafoodapi.domain.model.Usuario;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
 @Service
 public class CadastroUsuarioGrupoService {
 

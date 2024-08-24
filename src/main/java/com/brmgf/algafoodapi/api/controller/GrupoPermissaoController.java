@@ -3,9 +3,10 @@ package com.brmgf.algafoodapi.api.controller;
 import com.brmgf.algafoodapi.api.assembler.PermissaoDTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.PermissaoDTO;
 import com.brmgf.algafoodapi.domain.model.Grupo;
+import com.brmgf.algafoodapi.domain.model.Permissao;
 import com.brmgf.algafoodapi.service.cadastro.CadastroGrupoPermissaoService;
-import com.brmgf.algafoodapi.service.consulta.ConsultaGrupoPermissaoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaGrupoService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaPermissaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,9 +24,9 @@ import java.util.List;
 @RestController
 public class GrupoPermissaoController {
 
-    private final ConsultaGrupoService consultaGrupoService;
-    private final ConsultaGrupoPermissaoService consultaService;
     private final CadastroGrupoPermissaoService cadastroService;
+    private final ConsultaGrupoService consultaGrupoService;
+    private final ConsultaPermissaoService consultaPermissaoService;
     private final PermissaoDTOAssembler assembler;
 
     @GetMapping
@@ -34,23 +35,19 @@ public class GrupoPermissaoController {
         return assembler.toCollectionDTO(grupo.getPermissoes());
     }
 
-    @GetMapping("/{permissaoId}")
-    public PermissaoDTO buscar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
-        Grupo grupo = consultaGrupoService.buscar(grupoId);
-        return assembler.toDTO(consultaService.buscarPorGrupo(grupo, permissaoId));
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{permissaoId}")
     public void associar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
         Grupo grupo = consultaGrupoService.buscar(grupoId);
-        cadastroService.associar(grupo, permissaoId);
+        Permissao permissao = consultaPermissaoService.buscar(permissaoId);
+        cadastroService.associar(grupo, permissao);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{permissaoId}")
     public void desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
         Grupo grupo = consultaGrupoService.buscar(grupoId);
-        cadastroService.desassociar(grupo, permissaoId);
+        Permissao permissao = consultaPermissaoService.buscarPermissaoGrupo(grupo, permissaoId);
+        cadastroService.desassociar(grupo, permissao);
     }
 }
