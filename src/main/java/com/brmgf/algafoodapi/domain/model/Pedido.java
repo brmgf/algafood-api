@@ -4,12 +4,17 @@ import com.brmgf.algafoodapi.domain.enums.StatusPedido;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,15 +40,19 @@ public class Pedido {
     @Id
     private Long id;
 
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal subtotal;
 
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal valorTotal;
 
+    @NotNull
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime dataHoraCriacao;
@@ -62,6 +71,8 @@ public class Pedido {
     @JoinColumn(name = "usuario_cliente_id", nullable = false)
     private Usuario cliente;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusPedido status;
 
@@ -72,7 +83,7 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forma_pagamento_id", nullable = false)
     private FormaPagamento formaPagamento;
 }

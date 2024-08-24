@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,12 +30,15 @@ public class ItemPedido {
     @Id
     private Long id;
 
+    @Positive
     @Column(nullable = false)
     private Integer quantidade;
 
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal precoUnitario;
 
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal precoTotal;
 
