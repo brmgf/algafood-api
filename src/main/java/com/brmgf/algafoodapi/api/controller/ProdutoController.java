@@ -6,8 +6,8 @@ import com.brmgf.algafoodapi.api.domain.dto.ProdutoDTO;
 import com.brmgf.algafoodapi.api.domain.input.ProdutoInput;
 import com.brmgf.algafoodapi.domain.model.Produto;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
-import com.brmgf.algafoodapi.service.cadastro.CadastroRestauranteProdutoService;
-import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteProdutoService;
+import com.brmgf.algafoodapi.service.cadastro.CadastroProdutoService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaProdutoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +24,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
 @RestController
-public class RestauranteProdutoController {
+public class ProdutoController {
 
     private final ConsultaRestauranteService consultaRestauranteService;
-    private final ConsultaRestauranteProdutoService consultaService;
-    private final CadastroRestauranteProdutoService cadastroService;
+    private final ConsultaProdutoService consultaService;
+    private final CadastroProdutoService cadastroService;
     private final ProdutoDTOAssembler assembler;
     private final ProdutoInputDisassembler disassembler;
 
@@ -41,7 +41,7 @@ public class RestauranteProdutoController {
     @GetMapping("/{produtoId}")
     public ProdutoDTO buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
-        return assembler.toDTO(consultaService.buscarPorRestaurante(restaurante, produtoId));
+        return assembler.toDTO(consultaService.buscarProdutoRestaurante(restaurante, produtoId));
     }
 
     @PostMapping

@@ -6,6 +6,7 @@ import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.FormaPagamentoRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class ConsultaFormaPagamentoService {
     private static final String FORMA_PAGAMENTO = "Forma de pagamento";
     private static final String RESTAURANTE = "restaurante";
 
+    private final ConsultaRestauranteService consultaRestauranteService;
     private final FormaPagamentoRepository repository;
 
     @Transactional(readOnly = true)
@@ -35,14 +37,27 @@ public class ConsultaFormaPagamentoService {
                         String.format(MensagemErro.ENTIDADE_NAO_ENCONTRADA.getDescricao(), FORMA_PAGAMENTO, formaPagamentoId)
                 ));
 
-        FormaPagamento formaPagamentoRestaurante = restaurante.getFormasPagamento().stream()
+        List<FormaPagamento> formasPagamento = repository.findAllByRestauranteId(restaurante.getId());
+        return formasPagamento.stream()
                 .filter(fp -> formaPagamentoCadastrada.getId().equals(fp.getId()))
                 .findFirst()
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(
                         String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
                                 FORMA_PAGAMENTO, RESTAURANTE)
                 ));
+    }
 
-        return formaPagamentoRestaurante;
+    @Transactional(readOnly = true)
+    public boolean existeFormaPagamentoRestaurante(Long formaPagamentoId, Long restauranteId) {
+        Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
+        boolean existeFormaPagamento = restaurante.getFormasPagamento().stream()
+                .filter(fp -> formaPagamentoId.equals(formaPagamentoId))
+                .findFirst().isPresent();
+        if (!existeFormaPagamento) {
+            throw new EntidadeNaoEncontradaException(
+                    String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
+                            FORMA_PAGAMENTO, RESTAURANTE));
+        }
+        return true;
     }
 }

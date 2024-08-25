@@ -9,11 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class ConsultaRestauranteProdutoService {
+public class ConsultaProdutoService {
 
     private static final String RESTAURANTE = "Restaurante";
     private static final String PRODUTO = "Produto";
@@ -21,26 +21,19 @@ public class ConsultaRestauranteProdutoService {
     private final ProdutoRepository repository;
 
     @Transactional(readOnly = true)
-    public Produto buscarPorRestaurante(Restaurante restaurante, Long produtoId) {
-        Optional<Produto> optionalProdutoCadastrado = repository.findById(produtoId);
+    public Produto buscarProdutoRestaurante(Restaurante restaurante, Long produtoId) {
+        Produto produtoCadastrado = repository.findById(produtoId)
+                .orElseThrow(() -> new NegocioException(
+                        String.format(MensagemErro.ENTIDADE_NAO_ENCONTRADA.getDescricao(), PRODUTO, produtoId)
+                ));
 
-        if (!optionalProdutoCadastrado.isPresent()) {
-            throw new NegocioException(
-                String.format(MensagemErro.ENTIDADE_NAO_ENCONTRADA.getDescricao(), PRODUTO, produtoId)
-            );
-        }
-
-        Produto produtoCadastrado = optionalProdutoCadastrado.get();
-        Optional<Produto> produtoRestaurante = restaurante.getProdutos().stream()
+        List<Produto> produtos = repository.findAllByRestauranteId(restaurante.getId());
+        return produtos.stream()
                 .filter(p -> produtoCadastrado.getId().equals(p.getId()))
-                .findFirst();
-
-        if (!produtoRestaurante.isPresent()) {
-            throw new NegocioException(
+                .findFirst()
+                .orElseThrow( () -> new NegocioException(
                     String.format(MensagemErro.ENTIDADE_NAO_POSSUI_VINCULO.getDescricao(),
-                            RESTAURANTE, PRODUTO.toLowerCase()));
-        }
-
-        return produtoRestaurante.get();
+                            PRODUTO, RESTAURANTE.toLowerCase())
+                ));
     }
 }

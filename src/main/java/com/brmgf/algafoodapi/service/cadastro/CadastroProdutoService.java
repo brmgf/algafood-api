@@ -3,7 +3,7 @@ package com.brmgf.algafoodapi.service.cadastro;
 import com.brmgf.algafoodapi.domain.model.Produto;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.ProdutoRepository;
-import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteProdutoService;
+import com.brmgf.algafoodapi.service.consulta.ConsultaProdutoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class CadastroRestauranteProdutoService {
+public class CadastroProdutoService {
 
     private final ProdutoRepository repository;
-    private final ConsultaRestauranteProdutoService consultaService;
+    private final ConsultaProdutoService consultaService;
 
     @Transactional
     public Produto adicionar(Produto produto) {
@@ -23,7 +23,7 @@ public class CadastroRestauranteProdutoService {
 
     @Transactional
     public Produto atualizar(Long produtoId, Produto novoProduto, Restaurante restaurante) {
-        Produto produto = consultaService.buscarPorRestaurante(restaurante, produtoId);
+        Produto produto = consultaService.buscarProdutoRestaurante(restaurante, produtoId);
 
         BeanUtils.copyProperties(novoProduto, produto, "id");
         produto.setRestaurante(restaurante);
