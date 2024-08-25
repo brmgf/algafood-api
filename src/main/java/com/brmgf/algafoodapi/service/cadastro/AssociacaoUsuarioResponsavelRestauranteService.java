@@ -1,4 +1,4 @@
-package com.brmgf.algafoodapi.service.associacao;
+package com.brmgf.algafoodapi.service.cadastro;
 
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.model.Usuario;

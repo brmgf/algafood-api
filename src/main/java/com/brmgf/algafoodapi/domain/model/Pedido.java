@@ -1,6 +1,8 @@
 package com.brmgf.algafoodapi.domain.model;
 
 import com.brmgf.algafoodapi.domain.enums.StatusPedido;
+import com.brmgf.algafoodapi.domain.exception.NegocioException;
+import com.brmgf.algafoodapi.util.MensagemErro;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -100,5 +102,31 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.valorTotal = this.subtotal.add(this.taxaFrete);
+    }
+
+    public void confirmar() {
+        setStatusFluxo(StatusPedido.CONFIRMADO);
+        setDataHoraConfirmacao(LocalDateTime.now());
+    }
+
+    public void entregar() {
+        setStatusFluxo(StatusPedido.ENTREGUE);
+        setDataHoraEntrega(LocalDateTime.now());
+    }
+
+    public void cancelar() {
+        setStatusFluxo(StatusPedido.CANCELADO);
+        setDataHoraCancelamento(LocalDateTime.now());
+    }
+
+    private void setStatusFluxo(StatusPedido novoStatus) {
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(
+                    String.format(MensagemErro.STATUS_PEDIDO_NAO_PODE_SER_ALTERADO.getDescricao(),
+                            getId(), getStatus().getDescricao(), novoStatus.getDescricao())
+            );
+        }
+
+        this.status = novoStatus;
     }
 }

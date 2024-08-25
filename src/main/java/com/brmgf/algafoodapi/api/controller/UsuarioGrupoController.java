@@ -4,7 +4,7 @@ import com.brmgf.algafoodapi.api.assembler.GrupoDTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.GrupoDTO;
 import com.brmgf.algafoodapi.domain.model.Grupo;
 import com.brmgf.algafoodapi.domain.model.Usuario;
-import com.brmgf.algafoodapi.service.associacao.AssociacaoUsuarioGrupoService;
+import com.brmgf.algafoodapi.service.cadastro.AssociacaoUsuarioGrupoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaGrupoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaUsuarioService;
 import lombok.RequiredArgsConstructor;

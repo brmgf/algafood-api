@@ -4,7 +4,7 @@ import com.brmgf.algafoodapi.api.assembler.FormaPagamentoDTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.FormaPagamentoDTO;
 import com.brmgf.algafoodapi.domain.model.FormaPagamento;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
-import com.brmgf.algafoodapi.service.associacao.AssociacaoFormaPagamentoRestauranteService;
+import com.brmgf.algafoodapi.service.cadastro.AssociacaoFormaPagamentoRestauranteService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaFormaPagamentoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import lombok.RequiredArgsConstructor;

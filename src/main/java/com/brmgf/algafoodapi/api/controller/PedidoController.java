@@ -10,11 +10,13 @@ import com.brmgf.algafoodapi.service.cadastro.CadastroPedidoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaPedidoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/pedidos")
 @RestController
-public class PedidosController {
+public class PedidoController {
 
     private final ConsultaPedidoService consultaService;
     private final CadastroPedidoService cadastroService;
@@ -40,6 +42,7 @@ public class PedidosController {
         return pedidoDTOAssembler.toDTO(consultaService.buscar(pedidoId));
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public PedidoDTO salvar(@RequestBody @Valid PedidoInput input) {
         return pedidoDTOAssembler.toDTO(cadastroService.salvar(disassembler.toObjectModel(input)));

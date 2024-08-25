@@ -4,7 +4,7 @@ import com.brmgf.algafoodapi.api.assembler.UsuarioDTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.UsuarioDTO;
 import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.model.Usuario;
-import com.brmgf.algafoodapi.service.associacao.AssociacaoUsuarioResponsavelRestauranteService;
+import com.brmgf.algafoodapi.service.cadastro.AssociacaoUsuarioResponsavelRestauranteService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaUsuarioService;
 import lombok.RequiredArgsConstructor;
