@@ -5,6 +5,8 @@ import com.brmgf.algafoodapi.domain.model.Pedido;
 import com.brmgf.algafoodapi.domain.repository.PedidoRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +21,8 @@ public class ConsultaPedidoService {
     private final PedidoRepository repository;
 
     @Transactional(readOnly = true)
-    public List<Pedido> listar() {
-        return repository.findAll();
+    public Page<Pedido> listar(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)

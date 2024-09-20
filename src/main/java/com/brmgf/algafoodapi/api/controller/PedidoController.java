@@ -10,6 +10,8 @@ import com.brmgf.algafoodapi.service.cadastro.CadastroPedidoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaPedidoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +35,8 @@ public class PedidoController {
     private final PedidoInputDisassembler disassembler;
 
     @GetMapping
-    public List<PedidoResumoDTO> listar() {
-        return pedidoResumoDTOAssembler.toCollectionDTO(consultaService.listar());
+    public Page<PedidoResumoDTO> listar(Pageable pageable) {
+        return pedidoResumoDTOAssembler.toPageDTO(consultaService.listar(pageable));
     }
 
     @GetMapping("/{pedidoId}")

@@ -1,10 +1,12 @@
 package com.brmgf.algafoodapi.api.assembler;
 
 import com.brmgf.algafoodapi.api.assembler.utils.DTOAssembler;
+import com.brmgf.algafoodapi.api.domain.dto.PedidoDTO;
 import com.brmgf.algafoodapi.api.domain.dto.PedidoResumoDTO;
 import com.brmgf.algafoodapi.domain.model.Pedido;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -24,5 +26,9 @@ public class PedidoResumoDTOAssembler implements DTOAssembler<PedidoResumoDTO, P
     @Override
     public List<PedidoResumoDTO> toCollectionDTO(Collection<Pedido> pedidos) {
         return pedidos.stream().map(this::toDTO).toList();
+    }
+
+    public Page<PedidoResumoDTO> toPageDTO(Page<Pedido> pedidos) {
+        return pedidos.map(this::toDTO);
     }
 }
