@@ -1,5 +1,6 @@
-package com.brmgf.algafoodapi.api.assembler.utils;
+package com.brmgf.algafoodapi.api.assembler;
 
+import com.brmgf.algafoodapi.api.assembler.utils.DTOAssembler;
 import com.brmgf.algafoodapi.api.domain.dto.ProdutoDTO;
 import com.brmgf.algafoodapi.domain.model.Produto;
 import lombok.RequiredArgsConstructor;

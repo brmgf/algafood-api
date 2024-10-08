@@ -1,6 +1,6 @@
 package com.brmgf.algafoodapi.api.controller;
 
-import com.brmgf.algafoodapi.api.assembler.utils.ProdutoDTOAssembler;
+import com.brmgf.algafoodapi.api.assembler.ProdutoDTOAssembler;
 import com.brmgf.algafoodapi.api.disassembler.ProdutoInputDisassembler;
 import com.brmgf.algafoodapi.api.domain.dto.ProdutoDTO;
 import com.brmgf.algafoodapi.api.domain.input.ProdutoInput;
