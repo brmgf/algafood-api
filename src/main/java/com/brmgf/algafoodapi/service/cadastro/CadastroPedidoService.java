@@ -43,7 +43,7 @@ public class CadastroPedidoService {
     private void validarProdutos(Pedido pedido) {
         pedido.getItens().forEach(item -> {
             Produto produto = consultaProdutoService
-                    .buscarProdutoRestaurante(pedido.getRestaurante(), item.getProduto().getId());
+                    .buscarProdutoRestaurante(pedido.getRestaurante().getId(), item.getProduto().getId());
 
             item.setPedido(pedido);
             item.setProduto(produto);

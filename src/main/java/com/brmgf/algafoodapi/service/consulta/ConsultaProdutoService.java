@@ -2,7 +2,6 @@ package com.brmgf.algafoodapi.service.consulta;
 
 import com.brmgf.algafoodapi.domain.exception.NegocioException;
 import com.brmgf.algafoodapi.domain.model.Produto;
-import com.brmgf.algafoodapi.domain.model.Restaurante;
 import com.brmgf.algafoodapi.domain.repository.ProdutoRepository;
 import com.brmgf.algafoodapi.util.MensagemErro;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +20,13 @@ public class ConsultaProdutoService {
     private final ProdutoRepository repository;
 
     @Transactional(readOnly = true)
-    public Produto buscarProdutoRestaurante(Restaurante restaurante, Long produtoId) {
+    public Produto buscarProdutoRestaurante(Long restauranteId, Long produtoId) {
         Produto produtoCadastrado = repository.findById(produtoId)
                 .orElseThrow(() -> new NegocioException(
                         String.format(MensagemErro.ENTIDADE_NAO_ENCONTRADA.getDescricao(), PRODUTO, produtoId)
                 ));
 
-        List<Produto> produtos = repository.findAllByRestauranteId(restaurante.getId());
+        List<Produto> produtos = repository.findAllByRestauranteId(restauranteId);
         return produtos.stream()
                 .filter(p -> produtoCadastrado.getId().equals(p.getId()))
                 .findFirst()

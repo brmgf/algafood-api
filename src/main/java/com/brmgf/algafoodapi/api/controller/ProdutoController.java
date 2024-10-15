@@ -41,7 +41,7 @@ public class ProdutoController {
     @GetMapping("/{produtoId}")
     public ProdutoDTO buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
-        return assembler.toDTO(consultaService.buscarProdutoRestaurante(restaurante, produtoId));
+        return assembler.toDTO(consultaService.buscarProdutoRestaurante(restaurante.getId(), produtoId));
     }
 
     @PostMapping

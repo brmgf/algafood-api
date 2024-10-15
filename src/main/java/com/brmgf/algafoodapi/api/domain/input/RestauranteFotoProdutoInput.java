@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
-public class RestauranteProdutoFotoInput {
+public class RestauranteFotoProdutoInput {
 
     @FileSize(max = "1MB")
     @FileContentType(allowed = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })

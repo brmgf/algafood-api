@@ -9,11 +9,15 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -44,5 +48,13 @@ public class FotoProduto {
     private String contentType;
 
     @Column(nullable = false)
-    private Integer tamanho;
+    private Long tamanho;
+
+    public Long getRestauranteId() {
+        if (Objects.nonNull(this.getProduto())) {
+            return this.getProduto().getRestaurante().getId();
+        }
+
+        return null;
+    }
 }

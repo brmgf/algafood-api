@@ -23,7 +23,7 @@ public class CadastroProdutoService {
 
     @Transactional
     public Produto atualizar(Long produtoId, Produto novoProduto, Restaurante restaurante) {
-        Produto produto = consultaService.buscarProdutoRestaurante(restaurante, produtoId);
+        Produto produto = consultaService.buscarProdutoRestaurante(restaurante.getId(), produtoId);
 
         BeanUtils.copyProperties(novoProduto, produto, "id");
         produto.setRestaurante(restaurante);
