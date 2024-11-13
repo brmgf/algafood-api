@@ -8,7 +8,9 @@ import com.brmgf.algafoodapi.service.cadastro.AssociacaoFormaPagamentoRestaurant
 import com.brmgf.algafoodapi.service.consulta.ConsultaFormaPagamentoService;
 import com.brmgf.algafoodapi.service.consulta.ConsultaRestauranteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @RequestMapping("/restaurantes/{restauranteId}/formas-pagamento")
@@ -30,9 +33,12 @@ public class RestauranteFormaPagamentoController {
     private final FormaPagamentoDTOAssembler assembler;
 
     @GetMapping
-    public List<FormaPagamentoDTO> listar(@PathVariable Long restauranteId) {
+    public ResponseEntity<List<FormaPagamentoDTO>> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = consultaRestauranteService.buscar(restauranteId);
-        return assembler.toCollectionDTO(restaurante.getFormasPagamento());
+        List<FormaPagamentoDTO> dtos = assembler.toCollectionDTO(restaurante.getFormasPagamento());
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(1, TimeUnit.MINUTES))
+                .body(dtos);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
