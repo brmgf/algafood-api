@@ -1,6 +1,7 @@
 package com.brmgf.algafoodapi;
 
 import com.brmgf.algafoodapi.domain.exception.EntidadeEmUsoException;
+import com.brmgf.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.brmgf.algafoodapi.domain.model.Cozinha;
 import com.brmgf.algafoodapi.service.cadastro.CadastroCozinhaService;
 import jakarta.validation.ConstraintViolationException;
@@ -48,7 +49,7 @@ class CadastroCozinhaIT {
 
 	@Test
 	void deveFalharQuandoExcluirCozinhaInexistente() {
-		var exception = assertThrows(CozinhaNaoEncontradaException.class,
+		var exception = assertThrows(EntidadeNaoEncontradaException.class,
 				() -> cadastroCozinhaService.remover(999L));
 
 		Assertions.assertThat(exception).isNotNull();
